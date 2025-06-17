@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+"use client";
+
+import { useState } from 'react';
+import Link from 'next/link';
 import {
     LayoutDashboard,
     FileText,
@@ -13,34 +16,44 @@ import {
 
 const Sidebar = () => {
     const [isExpanded, setIsExpanded] = useState(true);
+    const [activeItem, setActiveItem] = useState('/dashboard'); // Track active item by path
 
     const menuItems = [
         {
             icon: LayoutDashboard,
             label: 'Dashboard',
-            active: true
+            navigate: '/dashboard'
         },
         {
             icon: FileText,
             label: 'Resume Review',
+            navigate: '/dashboard/resume-review'
         },
         {
             icon: TrendingUp,
             label: 'Skill Insights',
+            navigate: '/dashboard/skill-insights'
         },
         {
             icon: HelpCircle,
             label: 'Quiz',
+            navigate: '/dashboard/quiz'
         },
         {
             icon: BarChart3,
             label: 'Reports',
+            navigate: '/dashboard/reports'
         },
         {
             icon: Settings,
             label: 'Settings',
+            navigate: '/dashboard/settings'
         }
     ];
+
+    const handleItemClick = (path: any) => {
+        setActiveItem(path);
+    };
 
     return (
         <div className={`relative bg-slate-900 text-white transition-all duration-300 ease-in-out ${isExpanded ? 'w-80' : 'w-16'
@@ -77,22 +90,28 @@ const Sidebar = () => {
                 <ul className="space-y-2">
                     {menuItems.map((item, index) => {
                         const IconComponent = item.icon;
+                        const isActive = activeItem === item.navigate;
+
                         return (
-                            <li key={index}>
-                                <button className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all duration-200 hover:bg-slate-800 group ${item.active ? 'bg-blue-600 hover:bg-blue-700' : ''
-                                    }`}>
-                                    <IconComponent className={`w-5 h-5 flex-shrink-0 ${item.active ? 'text-white' : 'text-slate-300 group-hover:text-white'
+                            <li key={index} className="relative group">
+                                <Link
+                                    href={item.navigate}
+                                    onClick={() => handleItemClick(item.navigate)}
+                                    className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all duration-200 hover:bg-slate-800 ${isActive ? 'bg-blue-600 hover:bg-blue-700' : ''
+                                        }`}
+                                >
+                                    <IconComponent className={`w-5 h-5 flex-shrink-0 ${isActive ? 'text-white' : 'text-slate-300 group-hover:text-white'
                                         }`} />
 
                                     {isExpanded && (
                                         <div className="flex-1 text-left overflow-hidden">
-                                            <div className={`font-medium ${item.active ? 'text-white' : 'text-slate-200 group-hover:text-white'
+                                            <div className={`font-medium ${isActive ? 'text-white' : 'text-slate-200 group-hover:text-white'
                                                 }`}>
                                                 {item.label}
                                             </div>
                                         </div>
                                     )}
-                                </button>
+                                </Link>
 
                                 {/* Tooltip for collapsed state */}
                                 {!isExpanded && (

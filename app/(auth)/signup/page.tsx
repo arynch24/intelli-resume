@@ -3,43 +3,90 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
-import { CircleAlert } from 'lucide-react';
+import { CircleAlert, Check, X, Eye, EyeOff } from 'lucide-react';
+import axios from 'axios';
 
 const SignupPage = () => {
-
     // Using Next.js router for navigation
     const router = useRouter();
 
     // State to hold form data and error messages
-    const [form, setForm] = useState({ name: '', email: '', password: '' });
+    const [form, setForm] = useState({ email: '', password: '' });
 
     // State to hold any error messages from the signup process
     const [error, setError] = useState('');
 
+    // State for password visibility toggle
+    const [showPassword, setShowPassword] = useState(false);
+
+    // Password strength validation function
+    const validatePasswordStrength = (password: any) => {
+        const requirements = {
+            minLength: password.length >= 8,
+            hasUppercase: /[A-Z]/.test(password),
+            hasLowercase: /[a-z]/.test(password),
+            hasNumber: /\d/.test(password),
+            hasSpecialChar: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password),
+        };
+
+        const score = Object.values(requirements).filter(Boolean).length;
+
+        return {
+            requirements,
+            score,
+            isStrong: score >= 4 && requirements.minLength
+        };
+    };
+
+    // Get password strength info
+    const passwordStrength = validatePasswordStrength(form.password);
+
+    // Function to get strength label and color
+    const getStrengthInfo = (score: number) => {
+        if (score === 0) return { label: '', color: '' };
+        if (score <= 2) return { label: 'Weak', color: 'text-red-500' };
+        if (score <= 3) return { label: 'Fair', color: 'text-yellow-500' };
+        if (score <= 4) return { label: 'Good', color: 'text-blue-500' };
+        return { label: 'Strong', color: 'text-green-500' };
+    };
+
+    const strengthInfo = getStrengthInfo(passwordStrength.score);
+
     // Function to handle input changes and update form state
     const handleChange = (e: any) => {
         setForm({ ...form, [e.target.name]: e.target.value });
+        // Clear error when user starts typing
+        if (error) setError('');
     };
 
     // Function to handle form submission for signup
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSignUp = async (e: any) => {
         e.preventDefault();
 
         try {
             setError('');
 
+            // Validate email
+            if (!form.email || !form.email.includes('@')) {
+                setError('Please enter a valid email address');
+                return;
+            }
+
+            // Validate password strength
+            if (!passwordStrength.isStrong) {
+                setError('Please create a stronger password that meets all requirements');
+                return;
+            }
+
             // Validate form inputs
-            const res = await fetch('/api/auth/signup', {
-                method: 'POST',
-                body: JSON.stringify(form),
+            const res = await axios.post('/api/auth/signup', {
+                email: form.email,
+                password: form.password,
             });
 
-            // Parse the response data
-            const data = await res.json();
-
             // Check if the response is not ok and set the error message
-            if (!res.ok) {
-                setError(data.error);
+            if (!res.data.ok) {
+                setError(res.data.error);
                 return;
             }
 
@@ -47,7 +94,7 @@ const SignupPage = () => {
             await signIn('credentials', {
                 email: form.email,
                 password: form.password,
-                callbackUrl: '/dashboard/links', // redirect after login
+                callbackUrl: '/dashboard', // redirect after login
             });
         }
         catch (error: any) {
@@ -74,7 +121,7 @@ const SignupPage = () => {
                     onClick={() => signIn('google', {
                         callbackUrl: '/dashboard/links'
                     })}>
-                    <img src="https://cdn-icons-png.flaticon.com/128/281/281764.png" alt="GitHub Icon" className="w-4 h-4" />
+                    <img src="https://cdn-icons-png.flaticon.com/128/281/281764.png" alt="Google Icon" className="w-4 h-4" />
                     Continue with Google
                 </button>
 
@@ -84,44 +131,113 @@ const SignupPage = () => {
                 </div>
 
                 {/* Form for email and password signup */}
-                <div className="flex justify-center items-center">
-                    <div className="w-full">
-                        <h3 className="font-semibold text-base mb-1 text-left">Name</h3>
-                        <input
-                            className="w-full p-2 border border-zinc-300 rounded-md text-base focus:outline-none focus:border-zinc-500  mb-4"
-                            name='name'
-                            type="text"
-                            onChange={handleChange}
+                <form onSubmit={handleSignUp} className="w-full">
+                    <h3 className="font-semibold text-base mb-1 text-left">
+                        Email
+                    </h3>
+                    <input
+                        className="w-full p-2 border border-zinc-300 rounded-md text-base focus:outline-none focus:border-zinc-500 mb-4"
+                        name='email'
+                        type="email"
+                        value={form.email}
+                        onChange={handleChange}
+                        required
+                    />
 
-                        />
-                        <h3 className="font-semibold text-base mb-1 text-left">
-                            Email
-                        </h3>
+                    <h3 className="font-semibold text-base mb-1 text-left">Password</h3>
+                    <div className="relative ">
                         <input
-                            className="w-full p-2 border border-zinc-300 rounded-md text-base focus:outline-none focus:border-zinc-500 mb-4"
-                            name='email'
-                            type="email"
-                            onChange={handleChange}
-                        />
-                        <h3 className="font-semibold text-base mb-1 text-left">Password</h3>
-                        <input
-                            className="w-full p-2 border border-zinc-300 rounded-md text-base focus:outline-none focus:border-zinc-500 mb-4"
+                            className="w-full p-2 pr-10 border border-zinc-300 rounded-md text-base focus:outline-none focus:border-zinc-500 mb-2"
                             name='password'
-                            type="password"
+                            type={showPassword ? "text" : "password"}
+                            value={form.password}
                             onChange={handleChange}
+                            required
                         />
-
-                        {/* Display error message if signup fails */}
-                        {error && <span className='flex items-start gap-1 text-red-500 text-sm transition-colors py-2 pb-3'><CircleAlert size={16} className='mt-1' />{error}</span>}
-
-                        {/* Submit button for the signup form */}
-                        <div onClick={handleSubmit}>
-                            <button className="w-full bg-blue-600 text-white px-4 py-2 rounded-md cursor-pointer hover:bg-blue-700">
-                                Sign Up
-                            </button>
-                        </div>
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-3 top-3 text-zinc-400 hover:text-zinc-700"
+                        >
+                            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                        </button>
                     </div>
-                </div>
+
+                    {/* Password strength indicator */}
+                    {form.password && (
+                        <div className="mb-4">
+                            {/* Strength bar */}
+                            <div className="flex gap-1 mb-2">
+                                {[1, 2, 3, 4, 5].map((level) => (
+                                    <div
+                                        key={level}
+                                        className={`h-2 flex-1 rounded ${level <= passwordStrength.score
+                                            ? passwordStrength.score <= 2
+                                                ? 'bg-red-500'
+                                                : passwordStrength.score <= 3
+                                                    ? 'bg-yellow-500'
+                                                    : passwordStrength.score <= 4
+                                                        ? 'bg-blue-500'
+                                                        : 'bg-green-500'
+                                            : 'bg-zinc-200'
+                                            }`}
+                                    />
+                                ))}
+                            </div>
+
+                            {/* Strength label */}
+                            {strengthInfo.label && (
+                                <p className={`text-sm font-medium ${strengthInfo.color} mb-2`}>
+                                    Password strength: {strengthInfo.label}
+                                </p>
+                            )}
+
+                            {/* Requirements checklist */}
+                            <div className="text-sm space-y-1">
+                                <div className={`flex items-center gap-2 ${passwordStrength.requirements.minLength ? 'text-green-600' : 'text-zinc-500'}`}>
+                                    {passwordStrength.requirements.minLength ? <Check size={14} /> : <X size={14} />}
+                                    At least 8 characters
+                                </div>
+                                <div className={`flex items-center gap-2 ${passwordStrength.requirements.hasUppercase ? 'text-green-600' : 'text-zinc-500'}`}>
+                                    {passwordStrength.requirements.hasUppercase ? <Check size={14} /> : <X size={14} />}
+                                    One uppercase letter
+                                </div>
+                                <div className={`flex items-center gap-2 ${passwordStrength.requirements.hasLowercase ? 'text-green-600' : 'text-zinc-500'}`}>
+                                    {passwordStrength.requirements.hasLowercase ? <Check size={14} /> : <X size={14} />}
+                                    One lowercase letter
+                                </div>
+                                <div className={`flex items-center gap-2 ${passwordStrength.requirements.hasNumber ? 'text-green-600' : 'text-zinc-500'}`}>
+                                    {passwordStrength.requirements.hasNumber ? <Check size={14} /> : <X size={14} />}
+                                    One number
+                                </div>
+                                <div className={`flex items-center gap-2 ${passwordStrength.requirements.hasSpecialChar ? 'text-green-600' : 'text-zinc-500'}`}>
+                                    {passwordStrength.requirements.hasSpecialChar ? <Check size={14} /> : <X size={14} />}
+                                    One special character
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Display error message if signup fails */}
+                    {error && (
+                        <div className='flex items-start gap-1 text-red-500 text-sm transition-colors py-2 pb-3'>
+                            <CircleAlert size={16} className='mt-1' />
+                            {error}
+                        </div>
+                    )}
+
+                    {/* Submit button for the signup form */}
+                    <button
+                        type="submit"
+                        disabled={!passwordStrength.isStrong || !form.email}
+                        className={`w-full px-4 py-2 mt-3 rounded-md cursor-pointer transition-colors ${passwordStrength.isStrong && form.email
+                            ? 'bg-blue-600 text-white hover:bg-blue-700'
+                            : 'bg-zinc-300 text-zinc-500 cursor-not-allowed'
+                            }`}
+                    >
+                        Sign Up
+                    </button>
+                </form>
             </div>
         </div>
     );

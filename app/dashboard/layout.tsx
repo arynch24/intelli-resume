@@ -1,16 +1,14 @@
-import NavBar from "@/components/dashboard/NavBar";
+import Sidebar from "@/components/dashboard/Sidebar";
 
 const DashboardLayout = ({ children }: Readonly<{ children: React.ReactNode; }>) => {
     return (
-        <div className="h-screen">
-            {/* Dashboard Navigation Bar */}
-            <NavBar />
+        <div className="h-screen flex">
+            {/* Sidebar Navigation */}
+            <Sidebar/>
 
             {/* Main Content Area */}
-            <div className="h-[calc(100vh-4.1rem)] flex w-full">
-                <div className="w-full bg-zinc-50">
+            <div className="flex w-full bg-white">
                     {children}
-                </div>
             </div>
         </div>
     )
