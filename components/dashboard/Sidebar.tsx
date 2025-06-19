@@ -148,8 +148,8 @@ const Sidebar: React.FC = () => {
                         <div key={sectionIndex} className={sectionIndex > 0 ? 'mt-8' : ''}>
                             {/* Section Title */}
                             {section.title && !isCollapsed && (
-                                <div className="px-4 mb-3 border-t pt-4 border-gray-200">
-                                    <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                                <div className="px-4 mb-3 ">
+                                    <h2 className="text-xs font-semibold text-gray-400 border-t pt-4 px-3 border-gray-200 uppercase tracking-wider">
                                         {section.title}
                                     </h2>
                                 </div>
