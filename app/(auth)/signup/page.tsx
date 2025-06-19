@@ -47,7 +47,7 @@ const SignupPage = () => {
         if (score <= 2) return { label: 'Weak', color: 'text-red-500' };
         if (score <= 3) return { label: 'Fair', color: 'text-yellow-500' };
         if (score <= 4) return { label: 'Good', color: 'text-blue-500' };
-        return { label: 'Strong', color: 'text-green-500' };
+        return { label: 'Strong', color: 'text-green-500' };    
     };
 
     const strengthInfo = getStrengthInfo(passwordStrength.score);
@@ -62,46 +62,39 @@ const SignupPage = () => {
     // Function to handle form submission for signup
     const handleSignUp = async (e: any) => {
         e.preventDefault();
+        setError('');
+
+        // Validate email
+        if (!form.email || !form.email.includes('@')) {
+            setError('Please enter a valid email address');
+            return;
+        }
+
+        // Validate password strength
+        if (!passwordStrength.isStrong) {
+            setError('Please create a stronger password that meets all requirements');
+            return;
+        }
 
         try {
-            setError('');
-
-            // Validate email
-            if (!form.email || !form.email.includes('@')) {
-                setError('Please enter a valid email address');
-                return;
-            }
-
-            // Validate password strength
-            if (!passwordStrength.isStrong) {
-                setError('Please create a stronger password that meets all requirements');
-                return;
-            }
-
-            // Validate form inputs
+            // Signup API request
             const res = await axios.post('/api/auth/signup', {
                 email: form.email,
                 password: form.password,
             });
 
-            // Check if the response is not ok and set the error message
-            if (!res.data.ok) {
-                setError(res.data.error);
+            if (res.status !== 201) {
+                setError(res.data.message || 'Signup failed');
                 return;
             }
+            router.push('/dashboard');
 
-            // Auto login after signup so that to get the session otherwise only user details will be only stored in db 
-            await signIn('credentials', {
-                email: form.email,
-                password: form.password,
-                callbackUrl: '/dashboard', // redirect after login
-            });
-        }
-        catch (error: any) {
-            // Handle any errors that occur during the signup process
-            setError(error.message || "Something went wrong");
+        } catch (err: any) {
+            console.error(err);
+            setError(err.response?.data?.message || 'Something went wrong');
         }
     };
+
 
     return (
         <div className='h-screen w-full flex items-center'>
@@ -139,6 +132,7 @@ const SignupPage = () => {
                         className="w-full p-2 border border-zinc-300 rounded-md text-base focus:outline-none focus:border-zinc-500 mb-4"
                         name='email'
                         type="email"
+                        placeholder='Enter your email'
                         value={form.email}
                         onChange={handleChange}
                         required
@@ -150,6 +144,7 @@ const SignupPage = () => {
                             className="w-full p-2 pr-10 border border-zinc-300 rounded-md text-base focus:outline-none focus:border-zinc-500 mb-2"
                             name='password'
                             type={showPassword ? "text" : "password"}
+                            placeholder='Enter your password'
                             value={form.password}
                             onChange={handleChange}
                             required

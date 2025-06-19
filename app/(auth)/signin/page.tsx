@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
+import axios from 'axios';
 import { CircleAlert, Eye, EyeOff, ArrowLeft, Mail, CheckCircle } from 'lucide-react';
 
 const SigninPage = () => {
@@ -34,30 +35,33 @@ const SigninPage = () => {
 
     // Handles sign-in process using next-auth's credentials provider
     const handleSignIn = async () => {
-        setError(''); // Clear previous errors
-        setSuccess(''); // Clear previous success messages
-
-        // Basic validation
+        setError('');
+        setSuccess('');
+    
         if (!form.email || !form.password) {
             setError('Please fill in all fields');
             return;
         }
-
-        // Call signIn method, with redirect disabled to handle success/failure manually
-        const res = await signIn('credentials', {
-            redirect: false,
-            email: form.email,
-            password: form.password,
-        });
-
-        if (res?.ok) {
-            // If sign-in is successful, redirect to dashboard
-            router.push('/dashboard');
-        }
-
-        if (res?.error) {
-            // If there was an error, set the error message to display
-            setError(res.error);
+    
+        try {
+            const res = await axios.post(
+                '/api/auth/signin',
+                {
+                    email: form.email,
+                    password: form.password,
+                },
+                {
+                    withCredentials: true,
+                }
+            );
+    
+            // If sign-in is successful, redirect
+            if (res.status === 200) {
+                router.push('/dashboard');
+            }
+        } catch (err: any) {
+            console.error(err);
+            setError(err.response?.data?.message || 'Something went wrong');
         }
     };
 
@@ -118,7 +122,7 @@ const SigninPage = () => {
                     {/* Back button */}
                     <button
                         onClick={resetForgotPasswordState}
-                        className='flex items-center gap-2 text-blue-500 hover:text-blue-700 mb-4 w-fit'
+                        className='flex items-center gap-2 text-sm cursor-pointer text-blue-500 hover:text-blue-700 hover:bg-zinc-100 p-2 rounded mb-4 w-fit'
                     >
                         <ArrowLeft size={16} />
                         Back to login
@@ -151,16 +155,16 @@ const SigninPage = () => {
 
                         {/* Error message */}
                         {forgotError && (
-                            <div className='flex items-start gap-1 text-red-500 text-sm mb-4'>
-                                <CircleAlert size={16} className='mt-1' />
+                            <div className='flex items-center gap-2 text-red-500 text-sm mb-4'>
+                                <CircleAlert size={16} />
                                 {forgotError}
                             </div>
                         )}
 
                         {/* Success message */}
                         {forgotSuccess && (
-                            <div className='flex items-start gap-1 text-green-500 text-sm mb-4'>
-                                <CheckCircle size={16} className='mt-1' />
+                            <div className='flex items-center gap-2 text-green-500 text-sm mb-4'>
+                                <CheckCircle size={16} />
                                 {forgotSuccess}
                             </div>
                         )}

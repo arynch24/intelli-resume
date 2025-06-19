@@ -1,142 +1,202 @@
 "use client";
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
-    LayoutDashboard,
-    FileText,
-    TrendingUp,
-    HelpCircle,
-    BarChart3,
+    PieChart,
+    FilePen,
+    FileScan,
+    Brain,
+    User,
     Settings,
+    HelpCircle,
     ChevronLeft,
-    ChevronRight,
-    User
+    ChevronRight
 } from 'lucide-react';
 
-const Sidebar = () => {
-    const [isExpanded, setIsExpanded] = useState(true);
-    const [activeItem, setActiveItem] = useState('/dashboard'); // Track active item by path
+// Define the structure for navigation items
+interface NavItem {
+    id: string;
+    label: string;
+    icon: React.ReactNode;
+    navigation: string; // Next.js route path
+}
 
-    const menuItems = [
+// Define the structure for navigation sections
+interface NavSection {
+    title?: string;
+    items: NavItem[];
+}
+
+const Sidebar: React.FC = () => {
+    // Next.js router for getting current pathname
+    const router = useRouter();
+
+    // State to control sidebar collapsed/expanded state
+    const [isCollapsed, setIsCollapsed] = useState(false);
+
+    // State to track active item by path
+    const [activeItem, setActiveItem] = useState('/dashboard');
+
+    // Main navigation sections configuration
+    const navigationSections: NavSection[] = [
         {
-            icon: LayoutDashboard,
-            label: 'Dashboard',
-            navigate: '/dashboard'
+            // Main features section (no title)
+            items: [
+                {
+                    id: 'dashboard',
+                    label: 'Dashboard',
+                    icon: <PieChart size={20} />,
+                    navigation: '/dashboard'
+                },
+                {
+                    id: 'resume-builder',
+                    label: 'Resume Builder',
+                    icon: <FilePen size={20} />,
+                    navigation: '/dashboard/resume-builder'
+                },
+                {
+                    id: 'jd-matcher',
+                    label: 'JD Matcher',
+                    icon: <FileScan size={20} />,
+                    navigation: '/dashboard/jd-matcher'
+                },
+                {
+                    id: 'skill-assessment',
+                    label: 'Skill Assessment',
+                    icon: <Brain size={20} />,
+                    navigation: '/dashboard/skill-assessment'
+                },
+            ]
         },
         {
-            icon: FileText,
-            label: 'Resume Review',
-            navigate: '/dashboard/resume-review'
-        },
-        {
-            icon: TrendingUp,
-            label: 'Skill Insights',
-            navigate: '/dashboard/skill-insights'
-        },
-        {
-            icon: HelpCircle,
-            label: 'Quiz',
-            navigate: '/dashboard/quiz'
-        },
-        {
-            icon: BarChart3,
-            label: 'Reports',
-            navigate: '/dashboard/reports'
-        },
-        {
-            icon: Settings,
-            label: 'Settings',
-            navigate: '/dashboard/settings'
+            // Account section
+            title: 'ACCOUNT',
+            items: [
+                {
+                    id: 'profile',
+                    label: 'Profile',
+                    icon: <User size={20} />,
+                    navigation: '/dashboard/profile'
+                },
+                {
+                    id: 'settings',
+                    label: 'Settings',
+                    icon: <Settings size={20} />,
+                    navigation: '/dashboard/settings'
+                },
+                {
+                    id: 'help-support',
+                    label: 'Help & Support',
+                    icon: <HelpCircle size={20} />,
+                    navigation: '/dashboard/help-support'
+                }
+            ]
         }
     ];
 
+    // Toggle active item 
     const handleItemClick = (path: any) => {
         setActiveItem(path);
     };
 
-    return (
-        <div className={`relative bg-slate-900 text-white transition-all duration-300 ease-in-out ${isExpanded ? 'w-80' : 'w-16'
-            } min-h-screen`}>
-            {/* Toggle Button */}
-            <button
-                onClick={() => setIsExpanded(!isExpanded)}
-                className="absolute -right-3 top-8 bg-slate-900 border border-slate-700 rounded-full p-1.5 hover:bg-slate-800 transition-colors z-10"
-            >
-                {isExpanded ? (
-                    <ChevronLeft className="w-4 h-4" />
-                ) : (
-                    <ChevronRight className="w-4 h-4" />
-                )}
-            </button>
+    /**
+     * Toggle sidebar collapsed state
+     */
+    const toggleSidebar = () => {
+        setIsCollapsed(!isCollapsed);
+    };
 
-            {/* Logo Section */}
-            <div className="p-4 border-b border-slate-700">
-                <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <User className="w-5 h-5 text-white" />
-                    </div>
-                    {isExpanded && (
-                        <div>
-                            <h1 className="text-lg font-bold text-white">ResumeAI</h1>
-                            <p className="text-xs text-slate-400">Smart Resume Analysis</p>
+    return (
+        <div className={`bg-white border-r border-gray-200 h-screen flex flex-col transition-all duration-300 z-10 ${isCollapsed ? 'w-16' : 'w-64'
+            }`}>
+            {/* Header Section */}
+            <div className="p-4 border-b border-gray-200">
+                <div className="flex items-center justify-between gap-2">
+                    {/* Logo and Title */}
+                    <div className="flex items-center space-x-3">
+                        <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span className="text-white font-bold text-sm">iT</span>
                         </div>
-                    )}
+                        {!isCollapsed && (
+                            <div>
+                                <h1 className="text-lg font-semibold text-gray-900">IntelliResume</h1>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Toggle Button */}
+                    <button
+                        onClick={toggleSidebar}
+                        className="p-1.5 rounded-md hover:bg-gray-100 transition-colors"
+                        aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+                    >
+                        {isCollapsed ? (
+                            <ChevronRight size={16} className="text-gray-500" />
+                        ) : (
+                            <ChevronLeft size={16} className="text-gray-500" />
+                        )}
+                    </button>
                 </div>
             </div>
 
-            {/* Navigation Menu */}
-            <nav className="p-2 mt-4">
-                <ul className="space-y-2">
-                    {menuItems.map((item, index) => {
-                        const IconComponent = item.icon;
-                        const isActive = activeItem === item.navigate;
+            {/* Navigation Content */}
+            <div className="flex-1 overflow-y-auto py-4">
+                {navigationSections.map((section, sectionIndex) => {
+                    return (
+                        <div key={sectionIndex} className={sectionIndex > 0 ? 'mt-8' : ''}>
+                            {/* Section Title */}
+                            {section.title && !isCollapsed && (
+                                <div className="px-4 mb-3 border-t pt-4 border-gray-200">
+                                    <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                                        {section.title}
+                                    </h2>
+                                </div>
+                            )}
 
-                        return (
-                            <li key={index} className="relative group">
-                                <Link
-                                    href={item.navigate}
-                                    onClick={() => handleItemClick(item.navigate)}
-                                    className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all duration-200 hover:bg-slate-800 ${isActive ? 'bg-blue-600 hover:bg-blue-700' : ''
-                                        }`}
-                                >
-                                    <IconComponent className={`w-5 h-5 flex-shrink-0 ${isActive ? 'text-white' : 'text-slate-300 group-hover:text-white'
-                                        }`} />
-
-                                    {isExpanded && (
-                                        <div className="flex-1 text-left overflow-hidden">
-                                            <div className={`font-medium ${isActive ? 'text-white' : 'text-slate-200 group-hover:text-white'
+                            {/* Navigation Items using Link component */}
+                            <nav className="space-y-1 px-2">
+                                {section.items.map((item) => {
+                                    const isActive = activeItem === item.navigation;
+                                    return (
+                                        <Link
+                                            key={item.id}
+                                            href={item.navigation}
+                                            onClick={() => handleItemClick(item.navigation)}
+                                            className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-colors group ${isActive
+                                                ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700'
+                                                : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                                                }`}
+                                            title={isCollapsed ? item.label : undefined}
+                                            aria-label={`Navigate to ${item.label}`}
+                                        >
+                                            {/* Icon */}
+                                            <div className={`flex-shrink-0 ${isActive ? 'text-blue-600' : 'text-gray-500 group-hover:text-gray-700'
                                                 }`}>
-                                                {item.label}
+                                                {item.icon}
                                             </div>
-                                        </div>
-                                    )}
-                                </Link>
 
-                                {/* Tooltip for collapsed state */}
-                                {!isExpanded && (
-                                    <div className="absolute left-16 bg-slate-800 text-white px-3 py-2 rounded-lg shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 z-20 whitespace-nowrap">
-                                        <div className="font-medium">{item.label}</div>
-                                        <div className="absolute left-0 top-3 -translate-x-1 w-2 h-2 bg-slate-800 rotate-45"></div>
-                                    </div>
-                                )}
-                            </li>
-                        );
-                    })}
-                </ul>
-            </nav>
+                                            {/* Label - hidden when collapsed */}
+                                            {!isCollapsed && (
+                                                <span className="font-medium truncate">{item.label}</span>
+                                            )}
+                                        </Link>
+                                    )
 
-            {/* User Profile Section (Bottom) */}
-            {isExpanded && (
-                <div className="absolute bottom-4 left-4 right-4 p-3 bg-slate-800 rounded-lg">
-                    <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-blue-500 rounded-full flex items-center justify-center">
-                            <span className="text-sm font-medium text-white">JD</span>
+                                })
+                                }
+                            </nav>
                         </div>
-                        <div className="flex-1 min-w-0">
-                            <div className="text-sm font-medium text-white truncate">John Doe</div>
-                            <div className="text-xs text-slate-400">Premium User</div>
-                        </div>
+                    )
+                })}
+            </div>
+
+            {/* Footer Section */}
+            {!isCollapsed && (
+                <div className="p-4 border-t border-gray-100">
+                    <div className="text-xs text-gray-400 text-center">
+                        © 2025 Resume Analyzer
                     </div>
                 </div>
             )}

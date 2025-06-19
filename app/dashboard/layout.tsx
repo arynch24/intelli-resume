@@ -7,7 +7,7 @@ const DashboardLayout = ({ children }: Readonly<{ children: React.ReactNode; }>)
             <Sidebar/>
 
             {/* Main Content Area */}
-            <div className="flex w-full bg-white">
+            <div className=" h-screen w-full bg-white">
                     {children}
             </div>
         </div>
