@@ -5,8 +5,10 @@ import { CircularProgress } from '@/components/dashboard/jd-matcher/CircularProg
 import { ProgressBar } from '@/components/dashboard/jd-matcher/ProgressBar';
 import { SkillTag } from '@/components/dashboard/jd-matcher/SkillTag';
 import { SectionCard } from '@/components/dashboard/jd-matcher/SectionCard';
+import { ResumeJDUpload } from '@/components/dashboard/ResumeJdUpload';
 import { ResumeAnalysis } from '@/types/resume';
 import { SquarePen, Info, Copy } from 'lucide-react';
+import { useDashboard } from '@/context/DashboardContext';
 
 // Mock data - in a real app, this would come from an API
 const mockData: ResumeAnalysis = {
@@ -91,6 +93,10 @@ const mockData: ResumeAnalysis = {
 };
 
 export default function JdMatcher() {
+
+  const { openDialog, setOpenDialog } = useDashboard();
+
+
   const handleRefresh = () => {
     console.log('Refreshing analysis...');
   };
@@ -100,12 +106,29 @@ export default function JdMatcher() {
   };
 
   const handleUploadNew = () => {
-    console.log('Uploading new resume...');
+    setOpenDialog(true);
   };
 
   const handleRegenerate = () => {
     console.log('Regenerating summary...');
   };
+
+  const handleCopyToClipboard = () => {
+    navigator.clipboard.writeText(mockData.summary)
+      .then(() => {
+        console.log('Summary copied to clipboard');
+      })
+      .catch(err => {
+        console.error('Failed to copy summary: ', err);
+      });
+  };
+
+  if (openDialog) {
+    return <>
+      <ResumeJDUpload />
+    </>
+  }
+
 
   return (
     <div className="h-screen bg-gray-50 overflow-y-scroll">
@@ -211,7 +234,8 @@ export default function JdMatcher() {
           </div>
           <p className="text-gray-700 leading-relaxed">{mockData.summary}</p>
           <div className="flex justify-end mt-4 cursor-pointer">
-            <span className="text-sm text-gray-500 px-3 py-2 rounded  w-fit hover:bg-gray-50 hover:text-blue-500">
+            <span className="text-sm text-gray-500 px-3 py-2 rounded  w-fit hover:bg-gray-50 hover:text-blue-500"
+              onClick={handleCopyToClipboard}>
               <Copy size={16} className="inline mr-1" />
               Copy to clipboard
             </span>

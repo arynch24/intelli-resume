@@ -1,28 +1,36 @@
+"use client";
+
 import { createContext, useContext, useState, ReactNode } from 'react'
 
 //Define the context type
-type ThemeContextType = {
-    dialogboxstatus: boolean;
-    setDialogBoxStatus: (status: boolean) => void;
+type ContextType = {
+    openDialog: boolean;
+    setOpenDialog: (status: boolean) => void;
 }
 
 // Create context with default undefined (we'll handle this safely later)
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
+const Context = createContext<ContextType | undefined>(undefined);
 
 // Provider props type
-type ThemeProviderProps = {
+type ContextProviderProps = {
     children: ReactNode
 }
 
-export const ThemeProvider = ({ children }: ThemeProviderProps) => {
-    const [dialogboxstatus, setDialogBoxStatus] = useState<boolean>(false);
+export const ContextProvider = ({ children }: ContextProviderProps) => {
+    const [openDialog, setOpenDialog] = useState<boolean>(false);
 
     return (
-        <ThemeContext.Provider value={{ dialogboxstatus, setDialogBoxStatus }}>
+        <Context.Provider value={{ openDialog, setOpenDialog }}>
             {children}
-        </ThemeContext.Provider>
+        </Context.Provider>
     )
 }
 
-export const useDashboard = useContext(ThemeContext)
+export const useDashboard = (): ContextType => {
+    const context = useContext(Context)
+    if (!context) {
+        throw new Error('useDashboard must be used within a ContextProvider')
+    }
+    return context
+}
 

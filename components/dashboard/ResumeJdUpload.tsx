@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Upload, FileCheck, X } from 'lucide-react';
 import AnalysisProgressOverlay from '@/components/dashboard/AnalysisProgressOverlay';
 import { useRouter } from 'next/navigation';
+import { useDashboard } from '@/context/DashboardContext';
 
 interface ResumeFile {
   file: File;
@@ -17,7 +18,7 @@ interface JobDetails {
   description: string;
 }
 
-export default function ResumeScanner() {
+export function ResumeJDUpload() {
   const [resumeFile, setResumeFile] = useState<ResumeFile | null>(null);
   const [jobDetails, setJobDetails] = useState<JobDetails>({
     title: '',
@@ -79,6 +80,8 @@ export default function ResumeScanner() {
     }
   };
 
+  const { openDialog, setOpenDialog } = useDashboard();
+
   const handleCloseDialogBox = (): void => {
     setResumeFile(null);
     setJobDetails({
@@ -87,7 +90,7 @@ export default function ResumeScanner() {
       description: ''
     });
     setIsScanning(false);
-    router.push('/dashboard')
+    setOpenDialog(false);
   }
 
   const isFormValid: boolean = Boolean(
