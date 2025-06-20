@@ -109,7 +109,7 @@ const Sidebar: React.FC = () => {
     };
 
     return (
-        <div className={`bg-white border-r border-gray-200 h-screen flex flex-col transition-all duration-300 z-10 ${isCollapsed ? 'w-16' : 'w-64'
+        <div className={`bg-white border-r border-gray-200 h-screen flex flex-col transition-all duration-300 z-100 ${isCollapsed ? 'w-16' : 'w-64'
             }`}>
             {/* Header Section */}
             <div className="p-4 border-b border-gray-200">

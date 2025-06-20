@@ -76,7 +76,7 @@ export function ResumeJDUpload() {
         alert('Scanning completed! Resume analysis ready.');
       }, 5000);
 
-      router.push('/dashboard/match-report')
+      router.push('/dashboard/jd-matcher');
     }
   };
 
