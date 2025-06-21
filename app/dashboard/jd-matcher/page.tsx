@@ -132,7 +132,7 @@ export default function JdMatcher() {
 
   return (
     <div className="h-screen bg-gray-50 overflow-y-scroll">
-      <div className='sticky top-0 px-8 py-4 bg-white border-b border-gray-100 z-10'>
+      <div className='sticky top-0 px-8 py-4 shadow-sm bg-white border-b border-gray-100 z-10'>
         <ResumeHeader
           fileName={mockData.fileName}
           lastUpdated={mockData.lastUpdated}

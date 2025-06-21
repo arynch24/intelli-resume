@@ -102,7 +102,7 @@ export function ResumeJDUpload() {
 
 
   return (
-    <div className="fixed inset-1 flex justify-center items-center z-50 min-h-screen bg-black/30 backdrop-blur-xs">
+    <div className="fixed inset-1 flex justify-center items-center z-50 min-h-screen bg-black/30 backdrop-blur-xs ">
       <div className="w-full max-w-6xl p-10">
         <div className={`bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden transition-all duration-300 ${isScanning ? 'opacity-30 blur-sm' : 'opacity-100 blur-0'
           }`}>
