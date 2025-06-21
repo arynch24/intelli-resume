@@ -1,11 +1,12 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from 'react'
+import { createContext, useContext, useState, ReactNode, useRef } from 'react'
 
 //Define the context type
 type ContextType = {
     openDialog: boolean;
     setOpenDialog: (status: boolean) => void;
+    resumeRef: React.RefObject<HTMLDivElement>;
 }
 
 // Create context with default undefined (we'll handle this safely later)
@@ -18,9 +19,10 @@ type ContextProviderProps = {
 
 export const ContextProvider = ({ children }: ContextProviderProps) => {
     const [openDialog, setOpenDialog] = useState<boolean>(false);
+    const resumeRef = useRef<HTMLDivElement>(null);
 
     return (
-        <Context.Provider value={{ openDialog, setOpenDialog }}>
+        <Context.Provider value={{ openDialog, setOpenDialog, resumeRef: resumeRef as React.RefObject<HTMLDivElement> }}>
             {children}
         </Context.Provider>
     )

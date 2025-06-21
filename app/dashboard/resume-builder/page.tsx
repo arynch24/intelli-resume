@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useState, useCallback } from 'react';
-import { User, GraduationCap, FileText, Code, Briefcase, Award, Users, Download, Eye } from 'lucide-react';
+import { User, GraduationCap, Code, Briefcase, Award, Users} from 'lucide-react';
 import PersonalInfoForm from '@/components/dashboard/resume-builder/PersonalInfoForm';
 import EducationForm from '@/components/dashboard/resume-builder/EducationForm';
-import CourseworkForm from '@/components/dashboard/resume-builder/CourseworkForm';
 import ProjectsForm from '@/components/dashboard/resume-builder/ProjectsForm';
 import ExperienceForm from '@/components/dashboard/resume-builder/ExperienceForm';
 import TechnicalSkillsForm from '@/components/dashboard/resume-builder/TechnicalSkillsForm';
@@ -26,9 +25,8 @@ const ResumeBuilder: React.FC = () => {
       website: ''
     },
     education: [],
-    coursework: [],
     projects: [],
-    internships: [],
+    experience: [],
     technicalSkills: {
       languages: [],
       developerTools: [],
@@ -48,16 +46,12 @@ const ResumeBuilder: React.FC = () => {
     setResumeData(prev => ({ ...prev, education: data }));
   }, []);
 
-  const updateCoursework = useCallback((data: string[]) => {
-    setResumeData(prev => ({ ...prev, coursework: data }));
-  }, []);
-
   const updateProjects = useCallback((data: Project[]) => {
     setResumeData(prev => ({ ...prev, projects: data }));
   }, []);
 
-  const updateInternships = useCallback((data: Experience[]) => {
-    setResumeData(prev => ({ ...prev, internships: data }));
+  const updateExperience = useCallback((data: Experience[]) => {
+    setResumeData(prev => ({ ...prev, experience: data }));
   }, []);
 
   const updateTechnicalSkills = useCallback((data: { languages: string[]; developerTools: string[]; technologiesFrameworks: string[] }) => {
@@ -105,9 +99,8 @@ const ResumeBuilder: React.FC = () => {
   const sections = [
     { id: 'personal', label: 'Personal Info', icon: <User className="w-4 h-4" /> },
     { id: 'education', label: 'Education', icon: <GraduationCap className="w-4 h-4" /> },
-    { id: 'coursework', label: 'Coursework', icon: <FileText className="w-4 h-4" /> },
     { id: 'projects', label: 'Projects', icon: <Code className="w-4 h-4" /> },
-    { id: 'internships', label: 'Internships', icon: <Briefcase className="w-4 h-4" /> },
+    { id: 'experience', label: 'Experience', icon: <Briefcase className="w-4 h-4" /> },
     { id: 'skills', label: 'Technical Skills', icon: <Code className="w-4 h-4" /> },
     { id: 'extracurricular', label: 'Extracurricular', icon: <Users className="w-4 h-4" /> },
     { id: 'certifications', label: 'Certifications', icon: <Award className="w-4 h-4" /> },
@@ -119,12 +112,10 @@ const ResumeBuilder: React.FC = () => {
         return <PersonalInfoForm data={resumeData.personalInfo} onChange={updatePersonalInfo} />;
       case 'education':
         return <EducationForm data={resumeData.education} onChange={updateEducation} />;
-      case 'coursework':
-        return <CourseworkForm data={resumeData.coursework} onChange={updateCoursework} />;
       case 'projects':
         return <ProjectsForm data={resumeData.projects} onChange={updateProjects} />;
-      case 'internships':
-        return <ExperienceForm data={resumeData.internships} onChange={updateInternships} title="Internship" icon={<Briefcase className="w-5 h-5 text-blue-600" />} />;
+      case 'experience':
+        return <ExperienceForm data={resumeData.experience} onChange={updateExperience} title="Experience" icon={<Briefcase className="w-5 h-5 text-blue-600" />} />;
       case 'skills':
         return <TechnicalSkillsForm data={resumeData.technicalSkills} onChange={updateTechnicalSkills} />;
       case 'extracurricular':
@@ -142,7 +133,6 @@ const ResumeBuilder: React.FC = () => {
       <div className="sticky top-0 bg-white shadow-sm border-b border-gray-100">
         <BuilderHeader
           score={85}
-          handleDownload={handleDownload}
           onPreview={() => console.log('Preview clicked')}
         />
       </div>
@@ -187,8 +177,8 @@ const ResumeBuilder: React.FC = () => {
                   Auto-updating
                 </div>
               </div>
-              <div className="border rounded-lg overflow-hidden max-h-[800px] overflow-y-auto">
-                <ResumeTemplate data={resumeData} />
+              <div className="border rounded-lg overflow-hidden max-h-[800px] scrollbar-hide overflow-y-scroll">
+                <ResumeTemplate  />
               </div>
             </div>
           </div>

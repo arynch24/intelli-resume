@@ -18,7 +18,7 @@ export const ResumeHeader: React.FC<ResumeHeaderProps> = ({
     onUploadNew
 }) => {
     return (
-        <div className="flex items-center justify-between mb-2 z-1 ">
+        <div className="flex items-center justify-between z-1 ">
             <div>
                 <h1 className="text-3xl font-bold text-gray-900 mb-2">Resume Analysis</h1>
                 <div className="flex items-center space-x-4">

@@ -82,9 +82,8 @@ export interface Extracurricular {
 export interface ResumeData {
     personalInfo: PersonalInfo;
     education: Education[];
-    coursework: string[];
     projects: Project[];
-    internships: Experience[];
+    experience: Experience[];
     technicalSkills: {
         languages: string[];
         developerTools: string[];
