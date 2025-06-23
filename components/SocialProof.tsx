@@ -1,6 +1,6 @@
 "use client";
 
-import { Star, Users, TrendingUp } from "lucide-react";
+import { PhoneCall, Users, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
@@ -21,7 +21,7 @@ const SocialProof = () => {
       label: "Average Score Improvement"
     },
     {
-      icon: Star,
+      icon: PhoneCall,
       number: "3x",
       label: "More Interview Callbacks"
     }

@@ -31,7 +31,7 @@ const FeaturesSection = () => {
         },
         {
             icon: Target,
-            title: "Your Personal Career Strategist",
+            title: "AI skill test with real-time questions based on your dream job.",
             subtitle: "Personalized Recommendations",
             description: "Get your complete career growth blueprint: skills to learn, courses to take, and exactly where to focus next",
             features: [

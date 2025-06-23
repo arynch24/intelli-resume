@@ -112,7 +112,8 @@ const Sidebar: React.FC = () => {
             <div className="p-4 border-b border-gray-200">
                 <div className="flex items-center justify-between gap-2">
                     {/* Logo and Title */}
-                    <div className="flex items-center space-x-3">
+                    <div className="flex items-center space-x-3 cursor-pointer"
+                        onClick={() => router.push('/')}>
                         <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
                             <span className="text-white font-bold text-sm">iT</span>
                         </div>

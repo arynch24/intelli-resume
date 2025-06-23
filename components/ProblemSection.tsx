@@ -34,21 +34,21 @@ const ProblemSection = () => {
   return (
     <section ref={ref} className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div 
+        <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.8 }}
         >
           <h2 className="text-3xl md:text-5xl font-heading font-bold text-intelliresume-navy mb-4">
-            Why Your Resume Isn't Getting Results
+            Why Your Resume Might Not Be Getting You Interviews
           </h2>
           <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
-            The job market has changed. Traditional resume advice doesn't work anymore. 
-            Here's what's really happening to your applications.
+            You've got the skills. So why no callbacks?
+            Here's what's really stopping your resume from getting noticed — and how to fix it.
           </p>
         </motion.div>
-        
+
         <div className="grid md:grid-cols-3 gap-8">
           {problems.map((problem, index) => (
             <motion.div
@@ -58,13 +58,13 @@ const ProblemSection = () => {
               transition={{ delay: index * 0.2, duration: 0.6 }}
             >
               <Card className="p-6 flex flex-col items-center gap-3 hover-lift bg-white border-0 shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl">
-                <motion.div 
+                <motion.div
                   className="inline-flex items-center justify-center w-16 h-16 mb-1 bg-red-100 rounded-full transition-all duration-300 hover:bg-red-200"
                   whileHover={{ rotate: 12 }}
                 >
                   <problem.icon className="h-8 w-8 text-red-600" />
                 </motion.div>
-                <motion.div 
+                <motion.div
                   className="text-3xl font-mono font-bold text-red-600"
                   whileHover={{ scale: 1.1 }}
                 >

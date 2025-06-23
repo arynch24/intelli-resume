@@ -12,31 +12,23 @@ const FAQ = () => {
   const faqs = [
     {
       question: "How accurate is your ATS scoring?",
-      answer: "Our ATS scoring system is trained on real data from major applicant tracking systems used by Fortune 500 companies. We maintain a 95% accuracy rate by continuously updating our algorithms based on the latest ATS requirements."
+      answer: "Our AI doesn't just mimic ATS systems — it understands industry context, job relevance, and recruiter intent. The score reflects how well your resume aligns with real hiring standards, not just keywords."
     },
     {
       question: "What file formats do you support?",
-      answer: "We support all major resume formats including PDF, DOC, DOCX, and TXT files. For best results, we recommend uploading a PDF version of your resume as it maintains formatting consistency."
+      answer: "We support PDF, DOC, and DOCX formats — the most common resume types used in hiring platforms."
     },
     {
       question: "How is this different from other resume checkers?",
-      answer: "Unlike basic grammar checkers, IntelliResume provides context-aware analysis that understands industry nuances, role requirements, and career progression. We offer personalized career roadmaps, not just generic feedback."
+      answer: "IntelliResume goes beyond surface-level checks. It delivers real-time ATS scoring, highlights missing keywords, analyzes job match fit, and even includes skill assessments to validate your strengths—all tailored to the role you're targeting."
     },
     {
       question: "Can I analyze resumes for different industries?",
-      answer: "Absolutely! Our AI is trained on resume data across 50+ industries including tech, finance, healthcare, marketing, and more. We provide industry-specific recommendations and keyword optimization."
+      answer: "Yes! IntelliResume works across tech, marketing, finance, healthcare, education, and more — all fully customizable by job type."
     },
     {
       question: "How long does the analysis take?",
-      answer: "Our basic analysis takes about 2 minutes to complete. For comprehensive Professional and Career Accelerator analyses, you'll receive results within 5-10 minutes depending on the depth of review requested."
-    },
-    {
-      question: "Is my data secure and private?",
-      answer: "Yes, we take data security seriously. All uploads are encrypted, and we never share your personal information with third parties. You can delete your data at any time, and we automatically purge files after 30 days unless you're a paying subscriber."
-    },
-    {
-      question: "Do you offer refunds?",
-      answer: "We offer a 30-day money-back guarantee on all paid plans. If you're not satisfied with the quality of our analysis or recommendations, contact us for a full refund, no questions asked."
+      answer: "It takes less than 2 minutes to get your full report, including personalized improvement tips and ATS readiness."
     },
     {
       question: "Can I get help with LinkedIn optimization too?",

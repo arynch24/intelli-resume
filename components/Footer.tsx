@@ -9,7 +9,7 @@ const Footer = () => {
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* CTA Section */}
-        <motion.div 
+        <motion.div
           className="text-center border-b border-gray-600 pb-12 mb-12"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -20,13 +20,13 @@ const Footer = () => {
             Ready to Transform Your Career?
           </h2>
           <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Join thousands of professionals who've already optimized their resumes and accelerated their careers with IntelliResume.
+            Join thousands of professionals and students who've already optimized their resumes and accelerated their careers with IntelliResume.
           </p>
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Button 
+            <Button
               size="lg"
               className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 text-lg font-semibold"
             >
@@ -34,7 +34,7 @@ const Footer = () => {
             </Button>
           </motion.div>
         </motion.div>
-        
+
         {/* Footer Links */}
         <div className="grid md:grid-cols-4 gap-8">
           <motion.div
@@ -56,7 +56,7 @@ const Footer = () => {
               AI-powered resume optimization that helps professionals land their dream jobs faster.
             </p>
           </motion.div>
-          
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -72,7 +72,7 @@ const Footer = () => {
               ))}
             </ul>
           </motion.div>
-          
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -88,7 +88,7 @@ const Footer = () => {
               ))}
             </ul>
           </motion.div>
-          
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -105,8 +105,8 @@ const Footer = () => {
             </ul>
           </motion.div>
         </div>
-        
-        <motion.div 
+
+        <motion.div
           className="border-t border-gray-600 mt-12 pt-8 text-center text-sm text-gray-400"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}

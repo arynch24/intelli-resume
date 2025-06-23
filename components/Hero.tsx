@@ -65,7 +65,7 @@ const Hero = () => {
                 size="lg"
                 className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 text-lg font-semibold transform transition-all duration-300 hover:scale-105"
               >
-                Analyze My Resume - Free
+                Try It Free — No Sign-Up Needed
               </Button>
             </motion.div>
 
@@ -132,7 +132,7 @@ const Hero = () => {
                 ATS Score: 92%
               </div>
             </motion.div>
-            <motion.div
+            {/* <motion.div
               className="absolute -bottom-6 -left-6"
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 3, repeat: Infinity, delay: 1 }}
@@ -140,7 +140,7 @@ const Hero = () => {
               <div className="bg-primary text-primary-foreground px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 hover:scale-110 cursor-pointer">
                 3 Matches Found
               </div>
-            </motion.div>
+            </motion.div> */}
           </motion.div>
         </div>
       </div>

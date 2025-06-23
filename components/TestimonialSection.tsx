@@ -70,7 +70,7 @@ const TestimonialSection = () => {
           transition={{ duration: 0.8 }}
         >
           <h2 className="text-3xl md:text-5xl text-intelliresume-navy font-heading font-bold mb-6">
-            Trusted by Top Professionals
+          Trusted  by thousands of top professionals and students 
           </h2>
           <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
             Join thousands of professionals who've transformed their careers with AI-powered resume optimization

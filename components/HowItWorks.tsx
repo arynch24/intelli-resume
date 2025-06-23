@@ -19,17 +19,17 @@ const HowItWorks = () => {
     },
     {
       icon: CheckCircle,
-      step: "02", 
+      step: "02",
       title: "AI Analysis",
       description: "Our advanced AI analyzes your resume against ATS systems, industry standards, and role requirements.",
-      time: "2 minutes"
+      time: "45 seconds"
     },
     {
       icon: Star,
       step: "03",
-      title: "Get Your Results",
-      description: "Receive detailed insights, specific improvements, and your personalized career roadmap.",
-      time: "Instant"
+      title: "Get Personalized Results",
+      description: "Receive detailed insight ,   ATS optimization tip ,  Keyword and skill fixes, Personalized Skill assessment ready for you.",
+      time: "Instant feedback"
     }
   ];
 
@@ -49,7 +49,7 @@ const HowItWorks = () => {
             Get professional insights in just 3 simple steps
           </p>
         </motion.div>
-        
+
         <div className="grid md:grid-cols-3 gap-8 relative">
           {/* Connection Lines */}
           <motion.div
@@ -58,7 +58,7 @@ const HowItWorks = () => {
             animate={isInView ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0 }}
             transition={{ duration: 1, delay: 0.5 }}
           />
-          
+
           {steps.map((step, index) => (
             <motion.div
               key={index}
@@ -78,7 +78,7 @@ const HowItWorks = () => {
                   >
                     {step.step}
                   </motion.div>
-                  
+
                   <div className="mt-4 mb-6">
                     <motion.div
                       className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4"
@@ -87,7 +87,7 @@ const HowItWorks = () => {
                     >
                       <step.icon className="h-8 w-8 text-primary" />
                     </motion.div>
-                    
+
                     <motion.h3
                       className="text-lg md:text-xl font-heading font-semibold text-intelliresume-navy mb-3"
                       whileHover={{ color: "#3b82f6" }}
@@ -95,11 +95,11 @@ const HowItWorks = () => {
                     >
                       {step.title}
                     </motion.h3>
-                    
+
                     <p className="text-gray-600 mb-4">
                       {step.description}
                     </p>
-                    
+
                     <motion.div
                       className="inline-block px-3 py-1 bg-emerald-500/10 text-emerald-500 text-sm font-medium rounded-full"
                       whileHover={{ scale: 1.05, backgroundColor: "rgba(34, 197, 94, 0.2)" }}
