@@ -14,6 +14,7 @@ import {
     ChevronLeft,
     ChevronRight
 } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 // Define the structure for navigation items
 interface NavItem {
@@ -36,8 +37,8 @@ const Sidebar: React.FC = () => {
     // State to control sidebar collapsed/expanded state
     const [isCollapsed, setIsCollapsed] = useState(false);
 
-    // State to track active item by path
-    const [activeItem, setActiveItem] = useState('/dashboard');
+    // Get current pathname to highlight active item
+    const pathname = usePathname();
 
     // Main navigation sections configuration
     const navigationSections: NavSection[] = [
@@ -96,17 +97,13 @@ const Sidebar: React.FC = () => {
         }
     ];
 
-    // Toggle active item 
-    const handleItemClick = (path: any) => {
-        setActiveItem(path);
-    };
-
     /**
      * Toggle sidebar collapsed state
      */
     const toggleSidebar = () => {
         setIsCollapsed(!isCollapsed);
     };
+
 
     return (
         <div className={`bg-white border-r border-gray-200 h-screen flex flex-col transition-all duration-300 z-50 ${isCollapsed ? 'w-16' : 'w-64'
@@ -158,12 +155,11 @@ const Sidebar: React.FC = () => {
                             {/* Navigation Items using Link component */}
                             <nav className="space-y-1 px-2">
                                 {section.items.map((item) => {
-                                    const isActive = activeItem === item.navigation;
+                                    const isActive = pathname === item.navigation;
                                     return (
                                         <Link
                                             key={item.id}
                                             href={item.navigation}
-                                            onClick={() => handleItemClick(item.navigation)}
                                             className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-colors group ${isActive
                                                 ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700'
                                                 : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
