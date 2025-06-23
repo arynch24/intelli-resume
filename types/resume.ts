@@ -91,3 +91,26 @@ export interface ResumeData {
     extracurricular: Extracurricular[];
     certifications: string[];
 }
+
+export interface Project {
+    id: string;
+    name: string;
+    technologies: string;
+    date: string;
+    description: string[];
+    liveUrl: string;
+}
+
+export interface LoadingStates {
+    [projectId: string]: boolean;
+}
+
+export interface AISuggestions {
+    [projectId: string]: string[] | null;
+}
+
+export interface AIDialogState {
+    isOpen: boolean;
+    projectId: string | null;
+    suggestions: string[];
+}
