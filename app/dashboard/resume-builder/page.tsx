@@ -66,42 +66,12 @@ const ResumeBuilder: React.FC = () => {
     setResumeData(prev => ({ ...prev, certifications: data }));
   }, []);
 
-  const handleDownload = async () => {
-    try {
-      // This would send the resumeData to your backend API
-      const response = await fetch('/api/generate-resume', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(resumeData),
-      });
-
-      if (response.ok) {
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        a.download = `${resumeData.personalInfo.fullName || 'resume'}.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-      } else {
-        alert('Error generating PDF. Please try again.');
-      }
-    } catch (error) {
-      console.error('Error downloading resume:', error);
-      alert('Error downloading resume. Please try again.');
-    }
-  };
-
   const sections = [
     { id: 'personal', label: 'Personal Info', icon: <User className="w-4 h-4" /> },
     { id: 'education', label: 'Education', icon: <GraduationCap className="w-4 h-4" /> },
     { id: 'projects', label: 'Projects', icon: <Code className="w-4 h-4" /> },
     { id: 'experience', label: 'Experience', icon: <Briefcase className="w-4 h-4" /> },
-    { id: 'skills', label: 'Technical Skills', icon: <Code className="w-4 h-4" /> },
+    { id: 'skills', label: 'Technical Skill', icon: <Code className="w-4 h-4" /> },
     { id: 'extracurricular', label: 'Extracurricular', icon: <Users className="w-4 h-4" /> },
     { id: 'certifications', label: 'Certifications', icon: <Award className="w-4 h-4" /> },
   ];
@@ -137,7 +107,7 @@ const ResumeBuilder: React.FC = () => {
         />
       </div>
 
-      <div className="max-w-7xl h-[calc(100vh-102px)] mx-auto px-4 sm:px-6 lg:px-8 py-6 overflow-y-scroll">
+      <div className="w-full h-[calc(100vh-102px)] mx-auto px-4 sm:px-6 lg:px-8 py-6 overflow-y-scroll">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left Panel - Form */}
           <div className="space-y-6">
@@ -177,7 +147,7 @@ const ResumeBuilder: React.FC = () => {
                   Auto-updating
                 </div>
               </div>
-              <div className="border rounded-lg overflow-hidden max-h-[800px] scrollbar-hide overflow-y-scroll">
+              <div className="border rounded-lg overflow-hidden max-h-[700px] scrollbar-hide overflow-y-scroll">
                 <ResumeTemplate  />
               </div>
             </div>
