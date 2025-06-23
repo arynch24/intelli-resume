@@ -15,7 +15,6 @@ const ProjectsForm: React.FC<{
       date: '',
       description: [''],
       liveUrl: '',
-      downloadUrl: ''
     };
     onChange([...data, newProject]);
   };
@@ -134,23 +133,13 @@ const ProjectsForm: React.FC<{
               </div>
             ))}
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <input
-              type="url"
-              placeholder="Live Site URL"
-              value={project.liveUrl}
-              onChange={(e) => updateProject(project.id, 'liveUrl', e.target.value)}
-              className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
-            />
-            <input
-              type="url"
-              placeholder="Download URL"
-              value={project.downloadUrl}
-              onChange={(e) => updateProject(project.id, 'downloadUrl', e.target.value)}
-              className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+          <input
+            type="url"
+            placeholder="Live Site URL"
+            value={project.liveUrl}
+            onChange={(e) => updateProject(project.id, 'liveUrl', e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+          />
         </div>
       ))}
     </div>

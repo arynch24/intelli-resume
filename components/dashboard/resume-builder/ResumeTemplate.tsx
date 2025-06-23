@@ -84,46 +84,33 @@ const mockData: ResumeData = {
             description: [
                 "Developed a custom link shortener using Cuttly API to generate and manage short URLs. Integrated analytics to track click performance and improve link sharing efficiency.",
             ],
-            liveUrl: "https://cuttely.vercel.app/",
-            downloadUrl: 'null',
+            liveUrl: "https://cuttely.vercel.app/"
         },
         {
             id: "2",
-            name: "Routine",
-            technologies: "React.js, TypeScript, Google Calendar API, Full Calendar, Postgres, Prisma ORM",
-            date: "Apr 2025",
-            description: [
-                "Developed a responsive routine tracker web app to help users plan, update, and monitor daily tasks, with integrated Google Calendar meeting scheduling.",
-            ],
-            liveUrl: "https://routine-three-nu.vercel.app/",
-            downloadUrl: 'null',
-        },
-        {
-            id: "3",
             name: "UploadThing",
             technologies: "Next.js, Tailwind CSS, Github oAuth, MongoDB, ShadCN, Cloudinary API",
             date: "Mar 2025",
             description: [
                 "Built a file-uploading platform, enabling users to upload media to cloud storage Cloudinary and generate sharable links. Implemented GitHub authentication, a user dashboard, and a backend API, deploying the project on Railway for scalability.",
             ],
-            liveUrl: "https://upload-thing-alpha.vercel.app/",
-            downloadUrl: 'null',
+            liveUrl: "https://upload-thing-alpha.vercel.app/"
         },
     ],
     experience: [
-        // {
-        //     id: "1",
-        //     company: 'Tech Solutions Inc',
-        //     role: 'Software Development Intern',
-        //     startDate: 'Jun 2023',
-        //     endDate: 'Aug 2023',
-        //     location: 'San Francisco, CA',
-        //     responsibilities: [
-        //         'Developed and maintained web applications using React and Node.js',
-        //         'Collaborated with cross-functional teams to deliver high-quality software solutions',
-        //         'Participated in code reviews and followed agile development practices'
-        //     ]
-        // }
+        {
+            id: "1",
+            company: 'Physics Wallah',
+            role: 'Frontend Developer Intern',
+            startDate: 'Jun 2025',
+            endDate: 'Nov 2025',
+            location: 'Bengaluru, Karnataka',
+            responsibilities: [
+                'Developed and maintained web applications using React and Node.js',
+                'Collaborated with cross-functional teams to deliver high-quality software solutions',
+                'Participated in code reviews and followed agile development practices'
+            ]
+        }
     ],
     technicalSkills: {
         languages: ['Python', 'JavaScript', 'Java', 'C++', 'SQL'],
@@ -200,7 +187,7 @@ const ResumeTemplate: React.FC<ResumeTemplateProps> = ({ data = mockData }) => {
     return (
         <div
             ref={containerRef}
-            className="w-full min-h-screen bg-gray-100 py-4 px-2 overflow-auto"
+            className="w-full  bg-gray-100 py-4 px-2 overflow-auto"
             style={{ cursor: 'grab' }}
         >
             {/* Zoom Info */}
@@ -235,10 +222,10 @@ const ResumeTemplate: React.FC<ResumeTemplateProps> = ({ data = mockData }) => {
                     {/* Header */}
                     <div className="text-center mb-4">
                         <h1 className="text-3xl tracking-wide uppercase break-words">
-                            {personalInfo.fullName || 'YOUR NAME'}
+                            {personalInfo.fullName}
                         </h1>
                         <p className="mb-1 text-base">
-                            {personalInfo.location || 'city, state'}
+                            {personalInfo.location}
                         </p>
 
                         <div className="flex justify-center items-center flex-wrap gap-3" >
@@ -280,213 +267,159 @@ const ResumeTemplate: React.FC<ResumeTemplateProps> = ({ data = mockData }) => {
                     </div>
 
                     {/* Education */}
-                    <div className="mb-3">
-                        <h2 className="w-full border-b font-medium text-base mb-2 uppercase tracking-wide">
-                            EDUCATION
-                        </h2>
-                        {education.length > 0 ? education.map((edu) => (
-                            <div key={edu.id} className="mb-1">
-                                <div className="flex justify-between items-start flex-wrap gap-2 text-sm">
-                                    <div className="flex-1 min-w-0">
-                                        <p className="font-bold break-words" >{edu.institution}</p>
-                                        <p className="italic break-words" >
-                                            {edu.degree} - {edu.field} {edu.cgpa && `- CGPA ${edu.cgpa}`}
-                                        </p>
-                                    </div>
-                                    <div className="text-right flex-shrink-0 text-xs">
-                                        <p className="font-semibold whitespace-nowrap">{edu.startDate} - {edu.endDate}</p>
-                                        <p className="italic break-words">{edu.location}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        )) : (
-                            <div className="mb-3">
-                                <div className="flex justify-between items-start flex-wrap gap-2 text-sm">
-                                    <div className="flex-1 min-w-0">
-                                        <p className="font-bold" >College Name</p>
-                                        <p className="italic" >Degree Name - CGPA - xx</p>
-                                    </div>
-                                    <div className="text-right flex-shrink-0">
-                                        <p className="font-semibold">MM YYYY - MM YYYY</p>
-                                        <p className="italic">city, country</p>
+                    {education.length > 0 && (
+                        <div className="mb-2">
+                            <h2 className="w-full border-b font-medium text-base mb-2 uppercase tracking-wide">
+                                EDUCATION
+                            </h2>
+                            {education.map((edu) => (
+                                <div key={edu.id} className="mb-1">
+                                    <div className="flex justify-between items-start flex-wrap gap-2 text-sm">
+                                        <div className="flex-1 min-w-0">
+                                            <p className="font-bold break-words" >{edu.institution}</p>
+                                            <p className="italic break-words" >
+                                                {edu.degree} - {edu.field} {edu.cgpa && `- CGPA ${edu.cgpa}`}
+                                            </p>
+                                        </div>
+                                        <div className="text-right flex-shrink-0 text-xs">
+                                            <p className="font-semibold whitespace-nowrap">{edu.startDate} - {edu.endDate}</p>
+                                            <p className="italic break-words">{edu.location}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        )}
-                    </div>
+                            ))}
+                        </div>
+                    )}
 
                     {/* Projects */}
-                    <div className="mb-3">
-                        <h2
-                            className="w-full border-b font-medium text-base mb-3 uppercase tracking-wide">
-                            PROJECTS
-                        </h2>
-                        {projects.length > 0 ? projects.map((project) => (
-                            <div key={project.id} className="mb-4 text-sm">
-                                <div className="flex justify-between items-start flex-wrap gap-2 mb-1">
-                                    <div className='flex gap-1'>
-                                        <p className="font-bold break-words underline underline-offset-4" >
-                                            {project.name}
-                                        </p>
-                                        |
-                                        <p className="font-bold break-words underline underline-offset-4" >
-                                            {project.technologies}
-                                        </p>
+                    {projects.length > 0 && (
+                        <div className="mb-2">
+                            <h2
+                                className="w-full border-b font-medium text-base mb-2 uppercase tracking-wide">
+                                PROJECTS
+                            </h2>
+                            {projects.map((project) => (
+                                <div key={project.id} className="mb-4 text-sm">
+                                    <div className="flex justify-between items-start flex-wrap gap-2 mb-1">
+                                        <div className='flex gap-1'>
+                                            <p className="font-bold break-words underline underline-offset-4" >
+                                                {project.name}
+                                            </p>
+                                            |
+                                            <p className="font-bold break-words underline underline-offset-4" >
+                                                {project.technologies}
+                                            </p>
+                                        </div>
+                                        <p className="font-semibold flex-shrink-0 whitespace-nowrap ">{project.date}</p>
                                     </div>
-                                    <p className="font-semibold flex-shrink-0 whitespace-nowrap ">{project.date}</p>
+                                    <ul className="list-disc list-outside pl-6 space-y-1">
+                                        {project.description.filter(desc => desc.trim()).map((desc, index) => (
+                                            <li key={index} className="break-words">{desc}</li>
+                                        ))}
+                                        <li className='underline underline-offset-4'>{project.liveUrl}</li>
+                                    </ul>
                                 </div>
-                                <ul className="list-disc list-inside ml-4 space-y-1">
-                                    {project.description.filter(desc => desc.trim()).map((desc, index) => (
-                                        <li key={index} className="break-words" >{desc}</li>
-                                    ))}
-                                </ul>
-                                {project.liveUrl && <p className="ml-4 break-all">Live site here</p>}
-                                {project.downloadUrl && <p className="ml-4">Download</p>}
-                            </div>
-                        )) : (
-                            <div className="mb-4 text-sm">
-                                <div className="flex justify-between items-start flex-wrap gap-2 mb-1">
-                                    <p className="font-bold flex-1 min-w-0" >Project Name 🔗 | Technology Stack Used</p>
-                                    <p className="font-semibold flex-shrink-0">MM YYYY</p>
-                                </div>
-                                <ul className="list-disc list-inside ml-4 space-y-1">
-                                    <li >About project <span className="font-bold">key points to highlight</span>.</li>
-                                    <li>Live site here</li>
-                                </ul>
-                            </div>
-                        )}
-                    </div>
+                            ))}
+                        </div>
+                    )}
 
                     {/* Experience */}
-                    <div className="mb-3">
-                        <h2
-                            className="w-full border-b font-medium text-base mb-3 uppercase tracking-wide">
-                            EXPERIENCE
-                        </h2>
-                        {experience.length > 0 ? experience.map((internship) => (
-                            <div key={internship.id} className="mb-3 text-sm">
-                                <div className="flex justify-between items-start flex-wrap gap-2">
-                                    <div className="flex-1 min-w-0">
-                                        <p className="font-bold break-words" >{internship.company} 🔗</p>
-                                        <p className="italic font-semibold break-words" >{internship.role}</p>
+                    {experience.length > 0 && (
+                        <div className="mb-2">
+                            <h2
+                                className="w-full border-b font-medium text-base mb-2 uppercase tracking-wide">
+                                EXPERIENCE
+                            </h2>
+                            {experience.map((internship) => (
+                                <div key={internship.id} className="mb-3 text-sm">
+                                    <div className="flex justify-between items-start flex-wrap gap-2">
+                                        <div className="flex-1 min-w-0">
+                                            <p className="font-bold break-words" >{internship.company} </p>
+                                            <p className="italic font-semibold break-words" >{internship.role}</p>
+                                        </div>
+                                        <div className="text-right flex-shrink-0">
+                                            <p className="font-semibold whitespace-nowrap">{internship.startDate} - {internship.endDate}</p>
+                                            <p className="italic break-words">{internship.location}</p>
+                                        </div>
                                     </div>
-                                    <div className="text-right flex-shrink-0">
-                                        <p className="font-semibold whitespace-nowrap">{internship.startDate} - {internship.endDate}</p>
-                                        <p className="italic break-words">{internship.location}</p>
-                                    </div>
+                                    <ul className="list-disc list-inside ml-4 mt-2">
+                                        {internship.responsibilities.filter(resp => resp.trim()).map((resp, index) => (
+                                            <li key={index} className="break-words" >{resp}</li>
+                                        ))}
+                                    </ul>
                                 </div>
-                                <ul className="list-disc list-inside ml-4 mt-2">
-                                    {internship.responsibilities.filter(resp => resp.trim()).map((resp, index) => (
-                                        <li key={index} className="break-words" >{resp}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )) : (
-                            <div className="mb-3 text-sm">
-                                <div className="flex justify-between items-start flex-wrap gap-2">
-                                    <div className="flex-1 min-w-0">
-                                        <p className="font-bold" >Company Name 🔗</p>
-                                        <p className="italic font-semibold" >Role Name</p>
-                                    </div>
-                                    <div className="text-right flex-shrink-0">
-                                        <p className="font-semibold">MM YYYY - MM YYYY</p>
-                                        <p className="italic">city, country</p>
-                                    </div>
-                                </div>
-                                <ul className="list-disc list-inside ml-4 mt-2">
-                                    <li >About the role and responsibilities carried out.</li>
-                                </ul>
-                            </div>
-                        )}
-                    </div>
+                            ))}
+                        </div>
+                    )}
 
                     {/* Technical Skills */}
-                    <div className="mb-3">
-                        <h2
-                            className="w-full border-b font-medium text-base mb-3 uppercase tracking-wide">
-                            TECHNICAL SKILLS
-                        </h2>
-                        <div className="space-y-2 text-sm">
-                            <p className="break-words" >
-                                <span className="font-bold">Languages:</span> {technicalSkills.languages.length > 0 ? technicalSkills.languages.join(', ') : 'Python, Java, C, C++, Dart, JavaScript, SQL, NoSQL, R, XML, Go'}
-                            </p>
-                            <p className="break-words" >
-                                <span className="font-bold">Developer Tools:</span> {technicalSkills.developerTools.length > 0 ? technicalSkills.developerTools.join(', ') : 'VS Code, Android Studio, DataGrip, Goland, IntelliJ Idea Ultimate'}
-                            </p>
-                            <p className="break-words" >
-                                <span className="font-bold">Technologies/Frameworks:</span> {technicalSkills.technologiesFrameworks.length > 0 ? technicalSkills.technologiesFrameworks.join(', ') : 'Linux, GitHub, ReactJS, Redux, NextJS, NodeJS, ExpressJS, Git, Mongo, Flutter'}
-                            </p>
+                    {
+                        (technicalSkills.developerTools.length > 0 ||
+                            technicalSkills.languages.length > 0 ||
+                            technicalSkills.technologiesFrameworks.length > 0)
+                        && (<div className="mb-2">
+                            <h2
+                                className="w-full border-b font-medium text-base mb-2 uppercase tracking-wide">
+                                TECHNICAL SKILLS
+                            </h2>
+                            <div className=" text-sm">
+                                <p className="break-words" >
+                                    <span className="font-bold">Languages:</span> {technicalSkills.languages.length > 0 ? technicalSkills.languages.join(', ') : ''}
+                                </p>
+                                <p className="break-words" >
+                                    <span className="font-bold">Developer Tools:</span> {technicalSkills.developerTools.length > 0 ? technicalSkills.developerTools.join(', ') : ''}
+                                </p>
+                                <p className="break-words" >
+                                    <span className="font-bold">Technologies/Frameworks:</span> {technicalSkills.technologiesFrameworks.length > 0 ? technicalSkills.technologiesFrameworks.join(', ') : ''}
+                                </p>
+                            </div>
                         </div>
-                    </div>
+                        )}
 
                     {/* Extracurricular */}
-                    <div className="mb-3">
-                        <h2
-                            className="w-full border-b font-medium text-base mb-3 uppercase tracking-wide">
-                            EXTRACURRICULAR
-                        </h2>
-                        {extracurricular.length > 0 ? extracurricular.map((activity) => (
-                            <div key={activity.id} className="mb-3 text-sm">
-                                <div className="flex justify-between items-start flex-wrap gap-2">
-                                    <div className="flex-1 min-w-0">
-                                        <p className="font-bold break-words" >{activity.organization} 🔗</p>
-                                        <p className="italic font-semibold break-words" >{activity.role}</p>
+                    {extracurricular.length > 0 && (
+                        <div className="mb-2">
+                            <h2
+                                className="w-full border-b font-medium text-base mb-2 uppercase tracking-wide">
+                                EXTRACURRICULAR
+                            </h2>
+                            {extracurricular.map((activity) => (
+                                <div key={activity.id} className="mb-3 text-sm">
+                                    <div className="flex justify-between items-start flex-wrap gap-2">
+                                        <div className="flex-1 min-w-0">
+                                            <p className="font-bold break-words" >{activity.organization} </p>
+                                            <p className="italic font-semibold break-words" >{activity.role}</p>
+                                        </div>
+                                        <div className="text-right flex-shrink-0">
+                                            <p className="font-semibold whitespace-nowrap">{activity.startDate} - {activity.endDate}</p>
+                                            <p className="italic break-words">{activity.location}</p>
+                                        </div>
                                     </div>
-                                    <div className="text-right flex-shrink-0">
-                                        <p className="font-semibold whitespace-nowrap">{activity.startDate} - {activity.endDate}</p>
-                                        <p className="italic break-words">{activity.location}</p>
-                                    </div>
+                                    <ul className="list-disc list-inside ml-4 mt-2">
+                                        {activity.responsibilities.filter(resp => resp.trim()).map((resp, index) => (
+                                            <li key={index} className="break-words" >{resp}</li>
+                                        ))}
+                                        {activity.certificate && <li>Participation Certificate. </li>}
+                                    </ul>
                                 </div>
-                                <ul className="list-disc list-inside ml-4 mt-2">
-                                    {activity.responsibilities.filter(resp => resp.trim()).map((resp, index) => (
-                                        <li key={index} className="break-words" >{resp}</li>
-                                    ))}
-                                    {activity.certificate && <li>Participation Certificate. 🔗</li>}
-                                </ul>
-                            </div>
-                        )) : (
-                            <div className="mb-3 text-sm">
-                                <div className="flex justify-between items-start flex-wrap gap-2">
-                                    <div className="flex-1 min-w-0">
-                                        <p className="font-bold" >Organization Name 🔗</p>
-                                        <p className="italic font-semibold" >Role</p>
-                                    </div>
-                                    <div className="text-right flex-shrink-0">
-                                        <p className="font-semibold">MM YYYY - MM YYYY</p>
-                                        <p className="italic">Location</p>
-                                    </div>
-                                </div>
-                                <ul className="list-disc list-inside ml-4 mt-2">
-                                    <li >About the role and responsibilities carried out.</li>
-                                    <li>Participation Certificate. 🔗</li>
-                                </ul>
-                            </div>
-                        )}
-                    </div>
+                            ))}
+                        </div>
+                    )}
 
                     {/* Certifications */}
-                    <div className="mb-4">
-                        <h2
-                            className="w-full border-b font-medium text-base mb-3 uppercase tracking-wide">
-                            CERTIFICATIONS
-                        </h2>
-                        {certifications.length > 0 ? (
+                    {certifications.length > 0 && (
+                        <div className="mb-2">
+                            <h2
+                                className="w-full border-b font-medium text-base mb-2 uppercase tracking-wide">
+                                CERTIFICATIONS
+                            </h2>
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-1 text-sm">
                                 {certifications.map((cert, index) => (
                                     <p key={index} className="break-words" >• {cert}</p>
                                 ))}
                             </div>
-                        ) : (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-1 text-sm">
-                                <p >• ReactJS & Redux - Udemy</p>
-                                <p >• Java</p>
-                                <p >• Command Line in Linux - Coursera</p>
-                                <p >• Python for Data Science - XIE</p>
-                                <p >• SQL</p>
-                                <p >• Microsoft AI Classroom - Microsoft</p>
-                            </div>
-                        )}
-                    </div>
+                        </div>
+                    )}
                 </div>
             </div>
 

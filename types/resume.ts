@@ -55,7 +55,6 @@ export interface Project {
     date: string;
     description: string[];
     liveUrl: string;
-    downloadUrl: string;
 }
 
 export interface Experience {

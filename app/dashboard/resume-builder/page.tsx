@@ -148,7 +148,7 @@ const ResumeBuilder: React.FC = () => {
                 </div>
               </div>
               <div className="border rounded-lg overflow-hidden max-h-[700px] scrollbar-hide overflow-y-scroll">
-                <ResumeTemplate  />
+                <ResumeTemplate  data={resumeData}/>
               </div>
             </div>
           </div>

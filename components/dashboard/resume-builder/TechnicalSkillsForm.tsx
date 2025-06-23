@@ -1,14 +1,24 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Code } from 'lucide-react';
-
 
 const TechnicalSkillsForm: React.FC<{
     data: { languages: string[]; developerTools: string[]; technologiesFrameworks: string[] };
     onChange: (data: { languages: string[]; developerTools: string[]; technologiesFrameworks: string[] }) => void;
 }> = ({ data, onChange }) => {
+    // Local state to track input values for real-time typing
+    const [inputValues, setInputValues] = useState({
+        languages: data.languages.join(', '),
+        developerTools: data.developerTools.join(', '),
+        technologiesFrameworks: data.technologiesFrameworks.join(', ')
+    });
+
     const updateSkills = (category: keyof typeof data, value: string) => {
+        // Update local input state immediately for real-time display
+        setInputValues(prev => ({ ...prev, [category]: value }));
+        
+        // Parse and update parent component data
         const skills = value.split(',').map(skill => skill.trim()).filter(skill => skill);
         onChange({ ...data, [category]: skills });
     };
@@ -26,7 +36,7 @@ const TechnicalSkillsForm: React.FC<{
                     <input
                         type="text"
                         placeholder="Python, Java, JavaScript, etc. (comma-separated)"
-                        value={data.languages.join(', ')}
+                        value={inputValues.languages}
                         onChange={(e) => updateSkills('languages', e.target.value)}
                         className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
@@ -37,7 +47,7 @@ const TechnicalSkillsForm: React.FC<{
                     <input
                         type="text"
                         placeholder="VS Code, Git, Docker, etc. (comma-separated)"
-                        value={data.developerTools.join(', ')}
+                        value={inputValues.developerTools}
                         onChange={(e) => updateSkills('developerTools', e.target.value)}
                         className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
@@ -48,7 +58,7 @@ const TechnicalSkillsForm: React.FC<{
                     <input
                         type="text"
                         placeholder="React, Node.js, MongoDB, etc. (comma-separated)"
-                        value={data.technologiesFrameworks.join(', ')}
+                        value={inputValues.technologiesFrameworks}
                         onChange={(e) => updateSkills('technologiesFrameworks', e.target.value)}
                         className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
