@@ -114,3 +114,27 @@ export interface AIDialogState {
     projectId: string | null;
     suggestions: string[];
 }
+
+export interface Experience {
+    id: string;
+    company: string;
+    role: string;
+    location: string;
+    startDate: string;
+    endDate: string;
+    responsibilities: string[];
+}
+
+export interface ExperienceLoadingStates {
+    [experienceId: string]: boolean;
+}
+
+export interface ExperienceAISuggestions {
+    [experienceId: string]: string[] | null;
+}
+
+export interface ExperienceAIDialogState {
+    isOpen: boolean;
+    experienceId: string | null;
+    suggestions: string[];
+}
