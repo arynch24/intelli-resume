@@ -2,7 +2,7 @@ import React from 'react'
 
 const page = () => {
   return (
-    <div>
+    <div className='text-4xl w-full h-full flex items-center justify-center'>
       i am reports page
     </div>
   )
