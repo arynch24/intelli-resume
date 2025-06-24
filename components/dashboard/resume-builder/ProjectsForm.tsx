@@ -173,21 +173,21 @@ const ProjectsForm: React.FC<ProjectsFormProps> = ({ data, onChange }) => {
                 placeholder="Project Name"
                 value={project.name}
                 onChange={(e) => updateProject(project.id, 'name', e.target.value)}
-                className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                className="p-2 border border-gray-300 rounded focus:ring-1 focus:outline-none transition-colors"
               />
               <input
                 type="text"
                 placeholder="Technologies Used"
                 value={project.technologies}
                 onChange={(e) => updateProject(project.id, 'technologies', e.target.value)}
-                className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                className="p-2 border border-gray-300 rounded focus:ring-1 focus:outline-none transition-colors"
               />
               <input
                 type="text"
                 placeholder="Date (MM YYYY)"
                 value={project.date}
                 onChange={(e) => updateProject(project.id, 'date', e.target.value)}
-                className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                className="p-2 border border-gray-300 rounded focus:ring-1 focus:outline-none transition-colors"
               />
             </div>
 
@@ -228,7 +228,7 @@ const ProjectsForm: React.FC<ProjectsFormProps> = ({ data, onChange }) => {
                     placeholder="Description point"
                     value={desc}
                     onChange={(e) => updateDescriptionPoint(project.id, index, e.target.value)}
-                    className="flex-1 p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors resize-none"
+                    className="flex-1 p-2 border border-gray-300 rounded focus:ring-1 focus:outline-none transition-colors resize-none"
                     rows={desc.length > 100 ? 3 : 2}
                   />
                   {project.description.length > 1 && (
@@ -248,7 +248,7 @@ const ProjectsForm: React.FC<ProjectsFormProps> = ({ data, onChange }) => {
               placeholder="Live Site URL"
               value={project.liveUrl}
               onChange={(e) => updateProject(project.id, 'liveUrl', e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+              className="w-full p-2 border border-gray-300 rounded focus:ring-1 focus:outline-none transition-colors"
             />
           </div>
         ))}

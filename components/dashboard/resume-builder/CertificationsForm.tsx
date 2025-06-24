@@ -33,7 +33,7 @@ const CertificationsForm: React.FC<{
           value={inputValue}
           onChange={(e) => updateCertifications(e.target.value)}
           rows={4}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-1 focus:outline-none transition-colors"
         />
       </div>
     </div>

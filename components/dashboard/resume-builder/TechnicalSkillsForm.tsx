@@ -38,7 +38,7 @@ const TechnicalSkillsForm: React.FC<{
                         placeholder="Python, Java, JavaScript, etc. (comma-separated)"
                         value={inputValues.languages}
                         onChange={(e) => updateSkills('languages', e.target.value)}
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-1 focus:outline-none transition-colors"
                     />
                 </div>
 
@@ -49,7 +49,7 @@ const TechnicalSkillsForm: React.FC<{
                         placeholder="VS Code, Git, Docker, etc. (comma-separated)"
                         value={inputValues.developerTools}
                         onChange={(e) => updateSkills('developerTools', e.target.value)}
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-1 focus:outline-none transition-colors"
                     />
                 </div>
 
@@ -60,7 +60,7 @@ const TechnicalSkillsForm: React.FC<{
                         placeholder="React, Node.js, MongoDB, etc. (comma-separated)"
                         value={inputValues.technologiesFrameworks}
                         onChange={(e) => updateSkills('technologiesFrameworks', e.target.value)}
-                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-1 focus:outline-none transition-colors"
                     />
                 </div>
             </div>

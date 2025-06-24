@@ -65,42 +65,42 @@ const EducationForm: React.FC<{
               placeholder="Institution Name"
               value={edu.institution}
               onChange={(e) => updateEducation(edu.id, 'institution', e.target.value)}
-              className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+              className="p-2 border border-gray-300 rounded focus:ring-1 focus:outline-none"
             />
             <input
               type="text"
               placeholder="Degree"
               value={edu.degree}
               onChange={(e) => updateEducation(edu.id, 'degree', e.target.value)}
-              className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+              className="p-2 border border-gray-300 rounded focus:ring-1 focus:outline-none"
             />
             <input
               type="text"
               placeholder="Field of Study"
               value={edu.field}
               onChange={(e) => updateEducation(edu.id, 'field', e.target.value)}
-              className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+              className="p-2 border border-gray-300 rounded focus:ring-1 focus:outline-none"
             />
             <input
               type="text"
               placeholder="CGPA/Percentage"
               value={edu.cgpa}
               onChange={(e) => updateEducation(edu.id, 'cgpa', e.target.value)}
-              className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+              className="p-2 border border-gray-300 rounded focus:ring-1 focus:outline-none"
             />
             <input
               type="text"
               placeholder="Start Date (MM YYYY)"
               value={edu.startDate}
               onChange={(e) => updateEducation(edu.id, 'startDate', e.target.value)}
-              className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+              className="p-2 border border-gray-300 rounded focus:ring-1 focus:outline-none"
             />
             <input
               type="text"
               placeholder="End Date (MM YYYY)"
               value={edu.endDate}
               onChange={(e) => updateEducation(edu.id, 'endDate', e.target.value)}
-              className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+              className="p-2 border border-gray-300 rounded focus:ring-1 focus:outline-none"
             />
           </div>
           <input
@@ -108,7 +108,7 @@ const EducationForm: React.FC<{
             placeholder="Location"
             value={edu.location}
             onChange={(e) => updateEducation(edu.id, 'location', e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border border-gray-300 rounded focus:ring-1 focus:outline-none"
           />
         </div>
       ))}

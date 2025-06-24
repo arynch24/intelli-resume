@@ -173,21 +173,21 @@ const ExperienceForm: React.FC<{
                 placeholder="Company/Organization"
                 value={experience.company}
                 onChange={(e) => updateExperience(experience.id, 'company', e.target.value)}
-                className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                className="p-2 border border-gray-300 rounded focus:ring-1 focus:outline-none transition-colors"
               />
               <input
                 type="text"
                 placeholder="Role/Position"
                 value={experience.role}
                 onChange={(e) => updateExperience(experience.id, 'role', e.target.value)}
-                className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                className="p-2 border border-gray-300 rounded focus:ring-1 focus:outline-none transition-colors"
               />
               <input
                 type="text"
                 placeholder="Location"
                 value={experience.location}
                 onChange={(e) => updateExperience(experience.id, 'location', e.target.value)}
-                className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                className="p-2 border border-gray-300 rounded focus:ring-1 focus:outline-none transition-colors"
               />
               <div className="grid grid-cols-2 gap-2">
                 <input
@@ -195,14 +195,14 @@ const ExperienceForm: React.FC<{
                   placeholder="Start (MM YYYY)"
                   value={experience.startDate}
                   onChange={(e) => updateExperience(experience.id, 'startDate', e.target.value)}
-                  className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                  className="p-2 border border-gray-300 rounded focus:ring-1 focus:outline-none transition-colors"
                 />
                 <input
                   type="text"
                   placeholder="End (MM YYYY)"
                   value={experience.endDate}
                   onChange={(e) => updateExperience(experience.id, 'endDate', e.target.value)}
-                  className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                  className="p-2 border border-gray-300 rounded focus:ring-1 focus:outline-none transition-colors"
                 />
               </div>
             </div>
@@ -244,7 +244,7 @@ const ExperienceForm: React.FC<{
                     placeholder="Responsibility/Achievement"
                     value={resp}
                     onChange={(e) => updateResponsibility(experience.id, index, e.target.value)}
-                    className="flex-1 p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors resize-none"
+                    className="flex-1 p-2 border border-gray-300 rounded focus:ring-1 focus:outline-none transition-colors resize-none"
                     rows={resp.length > 100 ? 3 : 2}
                   />
                   {experience.responsibilities.length > 1 && (

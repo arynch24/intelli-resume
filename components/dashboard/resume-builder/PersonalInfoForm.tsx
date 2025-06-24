@@ -24,42 +24,42 @@ const PersonalInfoForm: React.FC<{
           placeholder="Full Name"
           value={data.fullName}
           onChange={(e) => handleChange('fullName', e.target.value)}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-1 focus:outline-none transition-colors"
         />
         <input
           type="email"
           placeholder="Email"
           value={data.email}
           onChange={(e) => handleChange('email', e.target.value)}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-1 focus:outline-none transition-colors"
         />
         <input
           type="tel"
           placeholder="Phone"
           value={data.phone}
           onChange={(e) => handleChange('phone', e.target.value)}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-1 focus:outline-none transition-colors"
         />
         <input
           type="text"
           placeholder="Location"
           value={data.location}
           onChange={(e) => handleChange('location', e.target.value)}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-1 focus:outline-none transition-colors"
         />
         <input
           type="text"
           placeholder="LinkedIn Username"
           value={data.linkedin}
           onChange={(e) => handleChange('linkedin', e.target.value)}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-1 focus:outline-none transition-colors"
         />
         <input
           type="text"
           placeholder="GitHub Username"
           value={data.github}
           onChange={(e) => handleChange('github', e.target.value)}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-1 focus:outline-none transition-colors"
         />
       </div>
       <input
@@ -67,7 +67,7 @@ const PersonalInfoForm: React.FC<{
         placeholder="Website URL"
         value={data.website}
         onChange={(e) => handleChange('website', e.target.value)}
-        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-1 focus:outline-none transition-colors"
       />
     </div>
   );

@@ -172,21 +172,21 @@ const ExtracurricularForm: React.FC<{
                 placeholder="Organization Name"
                 value={activity.organization}
                 onChange={(e) => updateActivity(activity.id, 'organization', e.target.value)}
-                className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                className="p-2 border border-gray-300 rounded focus:ring-1 focus:outline-none transition-colors"
               />
               <input
                 type="text"
                 placeholder="Role/Position"
                 value={activity.role}
                 onChange={(e) => updateActivity(activity.id, 'role', e.target.value)}
-                className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                className="p-2 border border-gray-300 rounded focus:ring-1 focus:outline-none transition-colors"
               />
               <input
                 type="text"
                 placeholder="Location"
                 value={activity.location}
                 onChange={(e) => updateActivity(activity.id, 'location', e.target.value)}
-                className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                className="p-2 border border-gray-300 rounded focus:ring-1 focus:outline-none transition-colors"
               />
               <div className="grid grid-cols-2 gap-2">
                 <input
@@ -194,14 +194,14 @@ const ExtracurricularForm: React.FC<{
                   placeholder="Start (MM YYYY)"
                   value={activity.startDate}
                   onChange={(e) => updateActivity(activity.id, 'startDate', e.target.value)}
-                  className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                  className="p-2 border border-gray-300 rounded focus:ring-1 focus:outline-none transition-colors"
                 />
                 <input
                   type="text"
                   placeholder="End (MM YYYY)"
                   value={activity.endDate}
                   onChange={(e) => updateActivity(activity.id, 'endDate', e.target.value)}
-                  className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                  className="p-2 border border-gray-300 rounded focus:ring-1 focus:outline-none transition-colors"
                 />
               </div>
             </div>
@@ -211,7 +211,7 @@ const ExtracurricularForm: React.FC<{
               placeholder="Certificate URL (optional)"
               value={activity.certificate}
               onChange={(e) => updateActivity(activity.id, 'certificate', e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+              className="w-full p-2 border border-gray-300 rounded focus:ring-1 focus:outline-none transition-colors"
             />
 
             <div className="space-y-2">
@@ -251,7 +251,7 @@ const ExtracurricularForm: React.FC<{
                     placeholder="Responsibility/Achievement"
                     value={resp}
                     onChange={(e) => updateResponsibility(activity.id, index, e.target.value)}
-                    className="flex-1 p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors resize-none"
+                    className="flex-1 p-2 border border-gray-300 rounded focus:ring-1 focus:outline-none transition-colors resize-none"
                     rows={resp.length > 100 ? 3 : 2}
                   />
                   {activity.responsibilities.length > 1 && (
