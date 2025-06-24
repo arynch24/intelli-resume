@@ -23,6 +23,7 @@ interface NavItem {
     label: string;
     icon: React.ReactNode;
     navigation: string; // Next.js route path
+    hasNestedRoutes?: boolean; // Flag to indicate if this item has nested routes
 }
 
 // Define the structure for navigation sections
@@ -56,19 +57,22 @@ const Sidebar: React.FC = () => {
                     id: 'jd-matcher',
                     label: 'JD Matcher',
                     icon: <FileScan size={20} />,
-                    navigation: '/dashboard/jd-matcher'
+                    navigation: '/dashboard/jd-matcher',
+                    hasNestedRoutes: true
                 },
                 {
                     id: 'resume-builder',
                     label: 'Resume Builder',
                     icon: <FilePen size={20} />,
-                    navigation: '/dashboard/resume-builder'
+                    navigation: '/dashboard/resume-builder',
+                    hasNestedRoutes: true
                 },
                 {
                     id: 'skill-assessment',
                     label: 'Skill Assessment',
                     icon: <Brain size={20} />,
-                    navigation: '/dashboard/skill-assessment'
+                    navigation: '/dashboard/skill-assessment',
+                    hasNestedRoutes: true
                 },
                 {
                     id: 'resume-manager',
@@ -105,12 +109,23 @@ const Sidebar: React.FC = () => {
     ];
 
     /**
+     * Check if a navigation item should be active
+     * For items with nested routes, check if pathname starts with the navigation path
+     * For regular items, check for exact match
+     */
+    const isItemActive = (item: NavItem): boolean => {
+        if (item.hasNestedRoutes) {
+            return pathname.startsWith(item.navigation);
+        }
+        return pathname === item.navigation;
+    };
+
+    /**
      * Toggle sidebar collapsed state
      */
     const toggleSidebar = () => {
         setIsCollapsed(!isCollapsed);
     };
-
 
     return (
         <div className={`bg-white border-r border-gray-200 h-screen flex flex-col transition-all duration-300 z-50 ${isCollapsed ? 'w-16' : 'w-64'
@@ -163,7 +178,7 @@ const Sidebar: React.FC = () => {
                             {/* Navigation Items using Link component */}
                             <nav className="space-y-1 px-2">
                                 {section.items.map((item) => {
-                                    const isActive = pathname === item.navigation;
+                                    const isActive = isItemActive(item);
                                     return (
                                         <Link
                                             key={item.id}

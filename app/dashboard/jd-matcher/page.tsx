@@ -72,10 +72,7 @@ export default function ResumeScanner() {
 
             setTimeout(() => {
                 setIsScanning(false);
-                alert('Scanning completed! Resume analysis ready.');
             }, 5000);
-
-
 
             // Redirect to the analysis page after scanning
             router.push('/dashboard/jd-matcher/resume-analysis');
