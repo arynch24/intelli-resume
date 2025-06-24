@@ -1,277 +1,259 @@
 "use client";
 
-import { ResumeHeader } from '@/components/dashboard/jd-matcher/ResumeHeader';
-import { CircularProgress } from '@/components/dashboard/jd-matcher/CircularProgress';
-import { ProgressBar } from '@/components/dashboard/jd-matcher/ProgressBar';
-import { SkillTag } from '@/components/dashboard/jd-matcher/SkillTag';
-import { SectionCard } from '@/components/dashboard/jd-matcher/SectionCard';
-import { ResumeJDUpload } from '@/components/dashboard/ResumeJdUpload';
-import { ResumeAnalysis } from '@/types/resume';
-import { SquarePen, Info, Copy } from 'lucide-react';
-import { useDashboard } from '@/context/DashboardContext';
-
-// Mock data - in a real app, this would come from an API
-const mockData: ResumeAnalysis = {
-  fileName: "Product_Manager_Resume_2023.pdf",
-  lastUpdated: "2 hours ago",
-  atsScore: 78,
-  jobMatchRate: 68,
-  formatCompliance: 90,
-  keywordOptimization: 75,
-  readability: 65,
-  matchedSkills: ["Product Strategy", "Agile", "User Research", "Roadmapping"],
-  missingSkills: ["Data Analytics", "SQL", "B2B Experience"],
-  jobTitle: "Senior Product Manager - Tech",
-  summary: "Experienced Product Manager with 5+ years of expertise in developing user-centric digital products. Demonstrated success in leading cross-functional teams to deliver innovative solutions that increased user engagement by 28%. Strong background in Agile methodologies, product stakeholder management with a track record of launching 12+ successful products in SaaS environments.",
-  sections: {
-    contactInfo: {
-      rating: 'Excellent',
-      description: 'Your contact information is complete and properly formatted.',
-      positives: [
-        'All essential contact details are present',
-        'Professional email address format',
-        'LinkedIn profile included'
-      ],
-      warnings: [],
-      suggestions: []
-    },
-    professionalSummary: {
-      rating: 'Good',
-      description: 'Your summary is good but could be improved with more specific achievements.',
-      positives: [
-        'Good length (51 words)',
-        'Includes relevant skills'
-      ],
-      warnings: [
-        'Could use more quantifiable achievements'
-      ],
-      suggestions: [
-        'Add 1-2 specific metrics to showcase your impact',
-        'Include relevant industry keywords: SaaS, B2C, Product Development',
-        'Mention your most impressive achievement'
-      ]
-    },
-    workExperience: {
-      rating: 'Needs Improvement',
-      description: 'Your experience section needs more quantifiable achievements and action verbs.',
-      positives: [
-        'Clear job titles and dates'
-      ],
-      warnings: [
-        'Only 2 of 8 bullet points contain metrics',
-        'Too many generic descriptions'
-      ],
-      suggestions: [
-        'Replace generic verbs (managed, worked on) with powerful action verbs (spearheaded, orchestrated)',
-        'Add metrics to at least 60% of your bullet points',
-        'Focus on achievements rather than responsibilities',
-        'Include relevant keywords from the job description'
-      ]
-    },
-    skills: {
-      rating: 'Excellent',
-      description: 'Your skills section is well-organized and comprehensive.',
-      positives: [
-        'Good mix of technical and soft skills',
-        'Organized by categories',
-        'Includes relevant industry tools'
-      ],
-      warnings: [],
-      suggestions: []
-    },
-    education: {
-      rating: 'Good',
-      description: 'Your education section is good but could use minor improvements.',
-      positives: [
-        'Includes degree, institution, and graduation year',
-        'GPA included (3.8/4.0)'
-      ],
-      warnings: [],
-      suggestions: []
-    }
-  }
-};
-
-export default function JdMatcher() {
-
-  const { openDialog, setOpenDialog } = useDashboard();
+import React, { useState } from 'react';
+import { Upload, FileCheck } from 'lucide-react';
+import AnalysisProgressOverlay from '@/components/dashboard/AnalysisProgressOverlay';
+import { useRouter } from 'next/navigation';
 
 
-  const handleRefresh = () => {
-    console.log('Refreshing analysis...');
-  };
+interface ResumeFile {
+    file: File;
+    name: string;
+    size: number;
+}
 
-  const handleDownload = () => {
-    console.log('Downloading report...');
-  };
+interface JobDetails {
+    title: string;
+    company: string;
+    description: string;
+}
 
-  const handleUploadNew = () => {
-    setOpenDialog(true);
-  };
+export default function ResumeScanner() {
+    const [resumeFile, setResumeFile] = useState<ResumeFile | null>(null);
+    const [jobDetails, setJobDetails] = useState<JobDetails>({
+        title: '',
+        company: '',
+        description: ''
+    });
+    const [isScanning, setIsScanning] = useState<boolean>(false);
 
-  const handleRegenerate = () => {
-    console.log('Regenerating summary...');
-  };
+    const router = useRouter();
 
-  const handleCopyToClipboard = () => {
-    navigator.clipboard.writeText(mockData.summary)
-      .then(() => {
-        console.log('Summary copied to clipboard');
-      })
-      .catch(err => {
-        console.error('Failed to copy summary: ', err);
-      });
-  };
+    const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>): void => {
+        const file = event.target.files?.[0];
+        if (file && (file.type === 'application/pdf' || file.type.includes('document'))) {
+            setResumeFile({
 
-  if (openDialog) {
-    return <>
-      <ResumeJDUpload />
-    </>
-  }
+                file,
+                name: file.name,
+                size: file.size
+            });
+        }
+    };
+
+    const handleDragOver = (event: React.DragEvent<HTMLDivElement>): void => {
+        event.preventDefault();
+    };
+
+    const handleDrop = (event: React.DragEvent<HTMLDivElement>): void => {
+        event.preventDefault();
+        const file = event.dataTransfer.files?.[0];
+        if (file && (file.type === 'application/pdf' || file.type.includes('document'))) {
+            setResumeFile({
+                file,
+                name: file.name,
+                size: file.size
+            });
+        }
+    };
+
+    const handleJobDetailsChange = (field: keyof JobDetails, value: string): void => {
+        setJobDetails(prev => ({
+            ...prev,
+            [field]: value
+        }));
+    };
+
+    const handleStartScanning = (): void => {
+        if (resumeFile && jobDetails.title && jobDetails.company && jobDetails.description) {
+
+            setIsScanning(true);
+            //write logic for fetching resume jd analysis 
+
+            setTimeout(() => {
+                setIsScanning(false);
+                alert('Scanning completed! Resume analysis ready.');
+            }, 5000);
 
 
-  return (
-    <div className="h-screen bg-gray-50 overflow-y-scroll">
-      <div className='sticky top-0 px-8 py-4 shadow-sm bg-white border-b border-gray-100 z-10'>
-        <ResumeHeader
-          fileName={mockData.fileName}
-          lastUpdated={mockData.lastUpdated}
-          onRefresh={handleRefresh}
-          onDownload={handleDownload}
-          onUploadNew={handleUploadNew}
-        />
-      </div>
-      <div className="max-w-7xl mx-auto px-8 py-8">
 
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          {/* ATS Compatibility Score */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-            <div className="flex items-center justify-between mb-1">
-              <h2 className="text-xl font-semibold text-gray-900">ATS Compatibility Score</h2>
-              <Info size={16} className="text-gray-400" />
-            </div>
-            <p className="text-gray-600 text-sm mb-6">
-              How well your resume passes automated screening
-            </p>
+            // Redirect to the analysis page after scanning
+            router.push('/dashboard/jd-matcher/resume-analysis');
+        }
+    };
 
-            <div className="flex items-center mt-12">
-              <div className="flex-1">
-                <CircularProgress
-                  percentage={mockData.atsScore}
-                  color="#3B82F6"
-                  label="ATS Score"
-                />
-              </div>
+    const isFormValid: boolean = Boolean(
+        resumeFile &&
+        jobDetails.title.trim() &&
+        jobDetails.company.trim() &&
+        jobDetails.description.trim()
+    );
 
-              <div className="flex-1 mr-4">
-                <ProgressBar
-                  label="Format Compliance"
-                  percentage={mockData.formatCompliance}
-                />
-                <ProgressBar
-                  label="Keyword Optimization"
-                  percentage={mockData.keywordOptimization}
-                />
-                <ProgressBar
-                  label="Readability"
-                  percentage={mockData.readability}
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Job Description Match */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-            <div className="flex items-center justify-between mb-1">
-              <h2 className="text-xl font-semibold text-gray-900">Job Description Match</h2>
-              <SquarePen size={16} className="text-gray-400 cursor-pointer" />
-            </div>
-            <p className="text-gray-600 text-sm mb-6">
-              For: {mockData.jobTitle}
-            </p>
-
-            <div className="flex items-center justify-between mb-6">
-              <CircularProgress
-                percentage={mockData.jobMatchRate}
-                color="#10B981"
-                label="Match Rate"
-              />
-
-              <div className="flex-1 ml-8">
-                <div className="mb-4">
-                  <h3 className="text-lg font-medium text-gray-900 mb-3">Key Matched Skills</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {mockData.matchedSkills.map((skill, index) => (
-                      <SkillTag key={index} skill={skill} type="matched" />
-                    ))}
-                  </div>
+    return (
+        <div className="min-h-screen w-full bg-gray-50 relative">
+            <div className="w-full px-8 py-6">
+                <div className='mb-6'>
+                    <h1 className="text-3xl font-semibold text-gray-900 mb-1">
+                        Resume Scanner
+                    </h1>
+                    <p className="text-gray-600">
+                        Upload your resume and job details to analyze the match.
+                    </p>
                 </div>
 
-                <div>
-                  <h3 className="text-lg font-medium text-gray-900 mb-3">Missing Skills</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {mockData.missingSkills.map((skill, index) => (
-                      <SkillTag key={index} skill={skill} type="missing" />
-                    ))}
-                  </div>
+                <div className={`bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden transition-all duration-300 ${isScanning ? 'opacity-30 blur-sm' : 'opacity-100 blur-0'
+                    }`}>
+                    <div className="grid md:grid-cols-2 gap-0">
+                        {/* Left Section - Resume Upload */}
+                        <div className="p-6 border-r border-gray-100">
+                            <div className="mb-8">
+                                <h2 className="text-xl font-medium text-gray-900 mb-2 flex items-center">
+                                    Upload Resume
+                                </h2>
+                                <p className="text-gray-500 text-sm">
+                                    PDF or Word document
+                                </p>
+                            </div>
+
+                            <div
+                                className={`border-2 border-dashed rounded-lg transition-all duration-200 cursor-pointer ${resumeFile
+                                    ? 'border-green-300 bg-green-50 p-22'
+                                    : 'border-gray-200 p-25 hover:border-gray-300 hover:bg-gray-50'
+                                    }`}
+                                onDragOver={handleDragOver}
+                                onDrop={handleDrop}
+                                onClick={() => document.getElementById('file-input')?.click()}
+                            >
+                                <input
+                                    id="file-input"
+                                    type="file"
+                                    accept=".pdf,.doc,.docx"
+                                    onChange={handleFileUpload}
+                                    className="hidden"
+                                />
+
+                                <div className="text-center">
+                                    {resumeFile ? (
+                                        <div className="space-y-3">
+                                            <FileCheck className="mx-auto text-green-600" size={48} />
+                                            <div>
+                                                <p className="font-medium text-gray-900">{resumeFile.name}</p>
+                                                <p className="text-sm text-gray-500">
+                                                    {(resumeFile.size / 1024 / 1024).toFixed(1)} MB
+                                                </p>
+                                            </div>
+                                            <p className="text-xs text-gray-400">Click to change</p>
+                                        </div>
+                                    ) : (
+                                        <div className="space-y-3">
+                                            <Upload className="mx-auto text-gray-300" size={48} />
+                                            <div>
+                                                <p className="text-gray-700 font-medium">
+                                                    Drop your resume here
+                                                </p>
+                                                <p className="text-sm text-gray-500 mt-1">
+                                                    or click to browse
+                                                </p>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Right Section - Job Details */}
+                        <div className="p-6">
+                            <div className="mb-8">
+                                <h2 className="text-xl font-medium text-gray-900 mb-2 flex items-center">
+                                    Job Details
+                                </h2>
+                                <p className="text-gray-500 text-sm">
+                                    Information about the position
+                                </p>
+                            </div>
+
+                            <div className="space-y-6">
+                                <div className='w-full flex gap-3'>
+                                    <div className='w-full'>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Job Title
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={jobDetails.title}
+                                            onChange={(e) => handleJobDetailsChange('title', e.target.value)}
+                                            placeholder="Senior Software Engineer"
+                                            className="w-full text-sm px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 transition-colors"
+                                        />
+                                    </div>
+
+                                    <div className='w-full'>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Company
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={jobDetails.company}
+                                            onChange={(e) => handleJobDetailsChange('company', e.target.value)}
+                                            placeholder="Company name"
+                                            className="w-full text-sm px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 transition-colors"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Job Description
+                                    </label>
+                                    <textarea
+                                        value={jobDetails.description}
+                                        onChange={(e) => handleJobDetailsChange('description', e.target.value)}
+                                        placeholder="Paste the job description, requirements, and qualifications..."
+                                        rows={8}
+                                        className="w-full text-sm px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 transition-colors resize-none"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Bottom Section */}
+                    <div className="px-8 py-6 bg-gray-50 border-t border-gray-100">
+                        <div className="flex justify-center">
+                            <button
+                                onClick={handleStartScanning}
+                                disabled={!isFormValid || isScanning}
+                                className={`px-8 py-3 rounded-lg font-medium transition-all duration-200 flex items-center space-x-3 ${isFormValid && !isScanning
+                                    ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-sm hover:shadow-md'
+                                    : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                                    }`}
+                            >
+                                {isScanning ? (
+                                    <>
+                                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                        <span>Analyzing...</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <FileCheck size={20} />
+                                        <span>Start Analysis</span>
+                                    </>
+                                )}
+                            </button>
+                        </div>
+
+                        {!isFormValid && (
+                            <p className="text-center text-sm text-gray-400 mt-3">
+                                Please upload your resume and complete all fields
+                            </p>
+                        )}
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
+
+            {/* Analysis Progress Overlay */}
+            <AnalysisProgressOverlay isScanning={isScanning} />
+
         </div>
-
-        {/* AI-Generated Resume Summary */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-gray-900">AI-Generated Resume Summary</h2>
-            <button
-              onClick={handleRegenerate}
-              className="text-blue-500 hover:text-blue-800 font-medium text-sm"
-            >
-              Regenerate
-            </button>
-          </div>
-          <p className="text-gray-700 leading-relaxed">{mockData.summary}</p>
-          <div className="flex justify-end mt-4 cursor-pointer">
-            <span className="text-sm text-gray-500 px-3 py-2 rounded  w-fit hover:bg-gray-50 hover:text-blue-500"
-              onClick={handleCopyToClipboard}>
-              <Copy size={16} className="inline mr-1" />
-              Copy to clipboard
-            </span>
-          </div>
-        </div>
-
-        {/* Section-by-Section Analysis */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Section-by-Section Analysis</h2>
-
-          <SectionCard
-            title="Contact Information"
-            analysis={mockData.sections.contactInfo}
-          />
-
-          <SectionCard
-            title="Professional Summary"
-            analysis={mockData.sections.professionalSummary}
-          />
-
-          <SectionCard
-            title="Work Experience"
-            analysis={mockData.sections.workExperience}
-          />
-
-          <SectionCard
-            title="Skills"
-            analysis={mockData.sections.skills}
-          />
-
-          <SectionCard
-            title="Education"
-            analysis={mockData.sections.education}
-          />
-        </div>
-      </div>
-    </div>
-  );
+    );
 }

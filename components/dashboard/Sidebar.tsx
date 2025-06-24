@@ -12,7 +12,8 @@ import {
     Settings,
     HelpCircle,
     ChevronLeft,
-    ChevronRight
+    ChevronRight,
+    Files
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
@@ -52,16 +53,16 @@ const Sidebar: React.FC = () => {
                     navigation: '/dashboard'
                 },
                 {
-                    id: 'resume-builder',
-                    label: 'Resume Builder',
-                    icon: <FilePen size={20} />,
-                    navigation: '/dashboard/resume-builder'
-                },
-                {
                     id: 'jd-matcher',
                     label: 'JD Matcher',
                     icon: <FileScan size={20} />,
                     navigation: '/dashboard/jd-matcher'
+                },
+                {
+                    id: 'resume-builder',
+                    label: 'Resume Builder',
+                    icon: <FilePen size={20} />,
+                    navigation: '/dashboard/resume-builder'
                 },
                 {
                     id: 'skill-assessment',
@@ -69,6 +70,12 @@ const Sidebar: React.FC = () => {
                     icon: <Brain size={20} />,
                     navigation: '/dashboard/skill-assessment'
                 },
+                {
+                    id: 'resume-manager',
+                    label: 'Resume Manager',
+                    icon: <Files size={20} />,
+                    navigation: '/dashboard/resume-manager'
+                }
             ]
         },
         {

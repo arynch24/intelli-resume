@@ -68,15 +68,18 @@ export function ResumeJDUpload() {
   const handleStartScanning = (): void => {
     if (resumeFile && jobDetails.title && jobDetails.company && jobDetails.description) {
       setIsScanning(true);
-
       //write logic for fetching resume jd analysis 
 
       setTimeout(() => {
+        // Close dialog box after starting analysis
+        setOpenDialog(false);
         setIsScanning(false);
-        alert('Scanning completed! Resume analysis ready.');
-      }, 5000);
+      }, 10000);
 
-      router.push('/dashboard/jd-matcher');
+
+
+      // After analysis, redirect to resume analysis page
+      router.push('/dashboard/jd-matcher/resume-analysis');
     }
   };
 
