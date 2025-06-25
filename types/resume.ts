@@ -138,3 +138,42 @@ export interface ExperienceAIDialogState {
     experienceId: string | null;
     suggestions: string[];
 }
+export interface Skill {
+    id: string;
+    name: string;
+    type: 'technical' | 'soft';
+}
+
+export interface AssessmentQuestion {
+    id: string;
+    skill: string;
+    type: 'multiple-choice' | 'coding' | 'scenario';
+    question: string;
+    code?: string;
+    options?: string[];
+    correctAnswer?: number;
+    timeLimit: number;
+}
+
+export interface SkillScore {
+    skill: string;
+    score: number;
+    industryAverage: number;
+}
+
+export interface CareerSuggestion {
+    role: string;
+    match: number;
+    icon: React.ReactNode;
+}
+
+export interface LearningRecommendation {
+    title: string;
+    description: string;
+    icon: React.ReactNode;
+}
+
+export interface StrengthsAndImprovements {
+    strengths: Array<{ skill: string; description: string }>;
+    improvements: Array<{ skill: string; description: string }>;
+}
