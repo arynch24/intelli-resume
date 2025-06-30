@@ -1,6 +1,6 @@
 "use client";
 
-import { Upload, Plus, FileText } from "lucide-react";
+import { Upload, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export default function ResumeStarter() {

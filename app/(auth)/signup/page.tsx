@@ -11,7 +11,7 @@ const SignupPage = () => {
     const router = useRouter();
 
     // State to hold form data and error messages
-    const [form, setForm] = useState({ email: '', password: '' });
+    const [form, setForm] = useState({ name: '', email: '', password: '' });
 
     // State to hold any error messages from the signup process
     const [error, setError] = useState('');
@@ -47,7 +47,7 @@ const SignupPage = () => {
         if (score <= 2) return { label: 'Weak', color: 'text-red-500' };
         if (score <= 3) return { label: 'Fair', color: 'text-yellow-500' };
         if (score <= 4) return { label: 'Good', color: 'text-blue-500' };
-        return { label: 'Strong', color: 'text-green-500' };    
+        return { label: 'Strong', color: 'text-green-500' };
     };
 
     const strengthInfo = getStrengthInfo(passwordStrength.score);
@@ -60,6 +60,9 @@ const SignupPage = () => {
     };
 
     // Function to handle form submission for signup
+    // Updated handleSignUp function for your signup component
+    // Replace the existing handleSignUp function with this one
+
     const handleSignUp = async (e: any) => {
         e.preventDefault();
         setError('');
@@ -76,9 +79,16 @@ const SignupPage = () => {
             return;
         }
 
+        // Check if name is provided
+        if (!form.name || form.name.trim() === '') {
+            setError('Please enter your name');
+            return;
+        }
+
         try {
             // Signup API request
-            const res = await axios.post('/api/auth/signup', {
+            const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/signup`, {
+                name: form.name,
                 email: form.email,
                 password: form.password,
             });
@@ -87,7 +97,9 @@ const SignupPage = () => {
                 setError(res.data.message || 'Signup failed');
                 return;
             }
-            router.push('/dashboard');
+
+            // Navigate to OTP verification page with email parameter
+            router.push(`/verify-email?email=${encodeURIComponent(form.email)}`);
 
         } catch (err: any) {
             console.error(err);
@@ -125,6 +137,18 @@ const SignupPage = () => {
 
                 {/* Form for email and password signup */}
                 <form onSubmit={handleSignUp} className="w-full">
+                    <h3 className="font-semibold text-base mb-1 text-left">
+                        Name
+                    </h3>
+                    <input
+                        className="w-full p-2 border border-zinc-300 rounded-md text-base focus:outline-none focus:border-zinc-500 mb-4"
+                        name='name'
+                        type="text"
+                        placeholder='Enter your name'
+                        value={form.name || ''}
+                        onChange={handleChange}
+                        required
+                    />
                     <h3 className="font-semibold text-base mb-1 text-left">
                         Email
                     </h3>
@@ -188,7 +212,7 @@ const SignupPage = () => {
                             )}
 
                             {/* Requirements checklist */}
-                            <div className="text-sm space-y-1">
+                            <div className="text-xs space-y-1">
                                 <div className={`flex items-center gap-2 ${passwordStrength.requirements.minLength ? 'text-green-600' : 'text-zinc-500'}`}>
                                     {passwordStrength.requirements.minLength ? <Check size={14} /> : <X size={14} />}
                                     At least 8 characters
@@ -215,8 +239,8 @@ const SignupPage = () => {
 
                     {/* Display error message if signup fails */}
                     {error && (
-                        <div className='flex items-start gap-1 text-red-500 text-sm transition-colors py-2 pb-3'>
-                            <CircleAlert size={16} className='mt-1' />
+                        <div className='flex items-center gap-1 text-red-500 text-sm transition-colors py-2 pb-3'>
+                            <CircleAlert size={16} className='flex items-center' />
                             {error}
                         </div>
                     )}

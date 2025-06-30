@@ -144,7 +144,7 @@ const mockData: ResumeData = {
 
 const ResumeTemplate: React.FC<ResumeTemplateProps> = ({ data = mockData }) => {
     const { personalInfo, education, projects, experience, technicalSkills, extracurricular, certifications } = data;
-    const [zoom, setZoom] = useState<number>(0.7);
+    const [zoom, setZoom] = useState<number>(1);
     const containerRef = useRef<HTMLDivElement>(null);
     const { resumeRef } = useDashboard();
 
