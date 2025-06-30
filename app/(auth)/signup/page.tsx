@@ -19,6 +19,9 @@ const SignupPage = () => {
     // State for password visibility toggle
     const [showPassword, setShowPassword] = useState(false);
 
+    // State to manage loading state during signup
+    const [loading, setLoading] = useState(false);
+
     // Password strength validation function
     const validatePasswordStrength = (password: any) => {
         const requirements = {
@@ -60,12 +63,10 @@ const SignupPage = () => {
     };
 
     // Function to handle form submission for signup
-    // Updated handleSignUp function for your signup component
-    // Replace the existing handleSignUp function with this one
-
     const handleSignUp = async (e: any) => {
         e.preventDefault();
         setError('');
+        setLoading(true);
 
         // Validate email
         if (!form.email || !form.email.includes('@')) {
@@ -104,7 +105,10 @@ const SignupPage = () => {
         } catch (err: any) {
             console.error(err);
             setError(err.response?.data?.message || 'Something went wrong');
+        } finally {
+            setLoading(false);
         }
+
     };
 
 
@@ -241,20 +245,20 @@ const SignupPage = () => {
                     {error && (
                         <div className='flex items-center gap-1 text-red-500 text-sm transition-colors py-2 pb-3'>
                             <CircleAlert size={16} className='flex items-center' />
-                            {error}
+                            <p>{error}</p>
                         </div>
                     )}
 
                     {/* Submit button for the signup form */}
                     <button
                         type="submit"
-                        disabled={!passwordStrength.isStrong || !form.email}
+                        disabled={!passwordStrength.isStrong || !form.email || loading}
                         className={`w-full px-4 py-2 mt-3 rounded-md cursor-pointer transition-colors ${passwordStrength.isStrong && form.email
                             ? 'bg-blue-600 text-white hover:bg-blue-700'
                             : 'bg-zinc-300 text-zinc-500 cursor-not-allowed'
                             }`}
                     >
-                        Sign Up
+                        {loading ? 'Signing up...' : 'Sign Up'}
                     </button>
                 </form>
             </div>

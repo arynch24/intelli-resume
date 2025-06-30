@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import axios from 'axios';
-import { CircleAlert, Eye, EyeOff, ArrowLeft, Mail, CheckCircle } from 'lucide-react';
+import { CircleAlert, Eye, EyeOff } from 'lucide-react';
 
 const SigninPage = () => {
     const router = useRouter(); // Next.js router hook to navigate programmatically
@@ -13,21 +13,15 @@ const SigninPage = () => {
     const [form, setForm] = useState({ email: '', password: '' });
     // State to hold any error message from sign-in process
     const [error, setError] = useState('');
-    // State to hold success messages
-    const [success, setSuccess] = useState('');
 
     // State for password visibility toggle
     const [showPassword, setShowPassword] = useState(false);
 
-    // State for forgot password modal/view
-    const [showForgotPassword, setShowForgotPassword] = useState(false);
-    const [forgotEmail, setForgotEmail] = useState('');
-    const [forgotError, setForgotError] = useState('');
-    const [forgotSuccess, setForgotSuccess] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
+    // State to manage loading state during sign-in
+    const [loading, setLoading] = useState(false);
 
     // Updates form state whenever input changes
-    const handleChange = (e: any) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setForm({ ...form, [e.target.name]: e.target.value });
         // Clear errors when user starts typing
         if (error) setError('');
@@ -36,25 +30,20 @@ const SigninPage = () => {
     // Handles sign-in process using next-auth's credentials provider
     const handleSignIn = async () => {
         setError('');
-        setSuccess('');
-    
+        setLoading(true);
+
+        // Validation to ensure email and password are provided
         if (!form.email || !form.password) {
             setError('Please fill in all fields');
             return;
         }
-    
+
         try {
-            const res = await axios.post(
-                '/api/auth/signin',
-                {
-                    email: form.email,
-                    password: form.password,
-                },
-                {
-                    withCredentials: true,
-                }
-            );
-    
+            const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/login`, {
+                email: form.email,
+                password: form.password,
+            });
+
             // If sign-in is successful, redirect
             if (res.status === 200) {
                 router.push('/dashboard');
@@ -62,143 +51,12 @@ const SigninPage = () => {
         } catch (err: any) {
             console.error(err);
             setError(err.response?.data?.message || 'Something went wrong');
-        }
-    };
-
-    // Handle forgot password request
-    const handleForgotPassword = async (e: any) => {
-        e.preventDefault();
-        setForgotError('');
-        setForgotSuccess('');
-        setIsLoading(true);
-
-        // Basic email validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!forgotEmail || !emailRegex.test(forgotEmail)) {
-            setForgotError('Please enter a valid email address');
-            setIsLoading(false);
-            return;
-        }
-
-        try {
-            // Make API call to forgot password endpoint
-            const response = await fetch('/api/auth/forgot-password', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email: forgotEmail }),
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                setForgotSuccess('Password reset link has been sent to your email. Please check your inbox.');
-                setForgotEmail('');
-            } else {
-                setForgotError(data.error || 'Failed to send reset email. Please try again.');
-            }
-        } catch (error) {
-            setForgotError('Something went wrong. Please try again later.');
         } finally {
-            setIsLoading(false);
+
+            setLoading(false);
         }
     };
 
-    // Reset forgot password modal state
-    const resetForgotPasswordState = () => {
-        setForgotEmail('');
-        setForgotError('');
-        setForgotSuccess('');
-        setShowForgotPassword(false);
-    };
-
-    // If showing forgot password view
-    if (showForgotPassword) {
-        return (
-            <div className='h-screen w-full flex items-center'>
-                <div className='h-full w-full px-6 flex flex-col justify-center text-zinc-800 gap-4 max-w-md mx-auto'>
-
-                    {/* Back button */}
-                    <button
-                        onClick={resetForgotPasswordState}
-                        className='flex items-center gap-2 text-sm cursor-pointer text-blue-500 hover:text-blue-700 hover:bg-zinc-100 p-2 rounded mb-4 w-fit'
-                    >
-                        <ArrowLeft size={16} />
-                        Back to login
-                    </button>
-
-                    {/* Header */}
-                    <div className='flex flex-col gap-2 pb-3'>
-                        <h1 className='font-bold text-3xl'>Reset your password</h1>
-                        <p className='text-sm text-zinc-600'>
-                            Enter your email address and we'll send you a link to reset your password.
-                        </p>
-                    </div>
-
-                    {/* Forgot password form */}
-                    <form onSubmit={handleForgotPassword} className="w-full">
-                        <h3 className="font-semibold text-base mb-1 text-left">
-                            Email Address
-                        </h3>
-                        <div className="relative">
-                            <input
-                                className="w-full p-2 pl-10 border border-zinc-300 rounded-md text-base focus:outline-none focus:border-zinc-500 mb-4"
-                                type="email"
-                                value={forgotEmail}
-                                onChange={(e) => setForgotEmail(e.target.value)}
-                                placeholder="Enter your email address"
-                                required
-                            />
-                            <Mail className="absolute left-3 top-3 w-4 h-4 text-zinc-400" />
-                        </div>
-
-                        {/* Error message */}
-                        {forgotError && (
-                            <div className='flex items-center gap-2 text-red-500 text-sm mb-4'>
-                                <CircleAlert size={16} />
-                                {forgotError}
-                            </div>
-                        )}
-
-                        {/* Success message */}
-                        {forgotSuccess && (
-                            <div className='flex items-center gap-2 text-green-500 text-sm mb-4'>
-                                <CheckCircle size={16} />
-                                {forgotSuccess}
-                            </div>
-                        )}
-
-                        {/* Submit button */}
-                        <button
-                            type="submit"
-                            disabled={isLoading || !forgotEmail}
-                            className={`w-full px-4 py-2 rounded-md cursor-pointer transition-colors ${!isLoading && forgotEmail
-                                    ? 'bg-blue-600 text-white hover:bg-blue-700'
-                                    : 'bg-zinc-300 text-zinc-500 cursor-not-allowed'
-                                }`}
-                        >
-                            {isLoading ? 'Sending...' : 'Send Reset Link'}
-                        </button>
-                    </form>
-
-                    {/* Additional help text */}
-                    <div className="text-center text-sm text-zinc-600 mt-4">
-                        <p>Didn't receive the email? Check your spam folder or</p>
-                        <button
-                            onClick={() => handleForgotPassword({ preventDefault: () => { } })}
-                            className="text-blue-500 hover:text-blue-700 underline"
-                            disabled={isLoading}
-                        >
-                            try again
-                        </button>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    // Main signin form
     return (
         <div className='h-screen w-full flex items-center'>
             <div className='h-full w-full px-6 flex flex-col justify-center text-zinc-800 gap-4 max-w-md mx-auto'>
@@ -261,7 +119,7 @@ const SigninPage = () => {
                             <h3 className="font-semibold text-base text-left">Password</h3>
                             <button
                                 type="button"
-                                onClick={() => setShowForgotPassword(true)}
+                                onClick={() => router.push('/forgot-password')}
                                 className="text-sm text-blue-500 hover:text-blue-700 underline"
                             >
                                 Forgot password?
@@ -289,17 +147,9 @@ const SigninPage = () => {
 
                         {/* Display error message if sign-in fails */}
                         {error && (
-                            <div className='flex items-start gap-1 text-red-500 text-sm transition-colors py-2 pb-3'>
-                                <CircleAlert size={16} className='mt-1' />
-                                {error}
-                            </div>
-                        )}
-
-                        {/* Display success message */}
-                        {success && (
-                            <div className='flex items-start gap-1 text-green-500 text-sm transition-colors py-2 pb-3'>
-                                <CheckCircle size={16} className='mt-1' />
-                                {success}
+                            <div className='flex items-center gap-1 text-red-500 text-sm transition-colors py-2 pb-3'>
+                                <CircleAlert size={16} className='flex items-center' />
+                                <p>{error}</p>
                             </div>
                         )}
 
@@ -307,13 +157,13 @@ const SigninPage = () => {
                         <button
                             type="button"
                             onClick={handleSignIn}
-                            disabled={!form.password || !form.email}
+                            disabled={!form.password || !form.email || loading}
                             className={`w-full px-4 py-2 mt-2 rounded-md cursor-pointer transition-colors ${form.password && form.email
-                                    ? 'bg-blue-600 text-white hover:bg-blue-700'
-                                    : 'bg-zinc-300 text-zinc-500 cursor-not-allowed'
+                                ? 'bg-blue-600 text-white hover:bg-blue-700'
+                                : 'bg-zinc-300 text-zinc-500 cursor-not-allowed'
                                 }`}
                         >
-                            Sign In
+                            {loading ? 'Signing in...' : 'Sign In'}
                         </button>
                     </div>
                 </div>
