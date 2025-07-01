@@ -6,7 +6,9 @@ const page = () => {
 
   const logout = async () => {
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/logout`);
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/logout`,{
+        withCredentials: true,
+      });
       console.log('Logout successful:', response.data);
     } catch (error) {
       console.error('Logout failed:', error);

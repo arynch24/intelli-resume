@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 
 export async function middleware(req: NextRequest) {
   try {
-    const response = await fetch(`https://9070-113-30-168-62.ngrok-free.app/api/auth/check-auth`, {
+    const response = await fetch(`https://ef5c-113-30-168-62.ngrok-free.app/api/auth/check-auth`, {
       headers: {
         cookie: req.headers.get("cookie") || "",
       },

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Merriweather } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "@/context/AuthenticationContext";
 import { ContextProvider } from "@/context/DashboardContext";
 
 const merriweather = Merriweather({
@@ -24,9 +25,11 @@ export default function RootLayout({
       <body
         className={`${merriweather.variable} antialiased`}
       >
-        <ContextProvider>
-          {children}
-        </ContextProvider>
+        <AuthProvider>
+          <ContextProvider>
+            {children}
+          </ContextProvider>
+        </AuthProvider>
       </body>
     </html>
   );
