@@ -1,3 +1,5 @@
+"use client";
+
 import axios from "axios"
 
 const page = () => {
@@ -16,7 +18,8 @@ const page = () => {
       <p>
         i am profile page
       </p>
-      <div className='text-lg cursor-pointer text-white bg-red-500 px-3 py-2 border rounded shadow-sm'>
+      <div className='text-lg cursor-pointer text-white bg-red-500 px-3 py-2 border rounded shadow-sm'
+        onClick={logout}>
         Logout
       </div>
     </div>

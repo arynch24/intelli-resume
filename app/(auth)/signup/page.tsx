@@ -92,6 +92,8 @@ const SignupPage = () => {
                 name: form.name,
                 email: form.email,
                 password: form.password,
+            },{
+                withCredentials: true, 
             });
 
             if (res.status !== 201) {
