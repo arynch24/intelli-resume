@@ -2,14 +2,14 @@
 
 import { useState } from 'react';
 import { Clock, ChevronLeft, ChevronRight } from 'lucide-react';
-import { AssessmentQuestion } from '@/types/resume';
+import { AssessmentQuestion, MockAnswer } from '@/types/resume';
 
 const Assessment: React.FC<{
   question: AssessmentQuestion;
   questionNumber: number;
   totalQuestions: number;
   timeRemaining: number;
-  onAnswer: (answer: any) => void;
+  onAnswer: (answer: MockAnswer) => void;
   onNext: () => void;
   onPrevious: () => void;
   onSkip: () => void;
@@ -23,7 +23,7 @@ const Assessment: React.FC<{
   };
 
   const handleSubmit = () => {
-    onAnswer(selectedAnswer);
+    onAnswer(selectedAnswer !== null ? { questionId: question.id, answer: selectedAnswer } : { questionId: question.id, answer: null });
     onNext();
   };
 

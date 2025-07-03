@@ -18,7 +18,7 @@ const ResetPasswordPage = () => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [tokenValid, setTokenValid] = useState<boolean | null>(true); // Assume valid initially
+    const [tokenValid, setTokenValid] = useState<boolean | null>(null);
 
     // Password visibility states
     const [showPassword, setShowPassword] = useState(false);
@@ -29,6 +29,10 @@ const ResetPasswordPage = () => {
         if (!token) {
             setError('Invalid reset link. Please request a new password reset.');
             setTokenValid(false);
+        } else {
+            // Token exists, set as valid initially
+            // Actual validation will happen when user submits the form
+            setTokenValid(true);
         }
     }, [token]);
 
@@ -94,29 +98,33 @@ const ResetPasswordPage = () => {
                 password: passwords.password
             });
 
-            setSuccess('Password has been reset successfully! Redirecting to login...');
-            setPasswords({ password: '', confirmPassword: '' });
+            // Handle successful response based on backend structure
+            if (response.data.success) {
+                setSuccess(response.data.message || 'Password has been reset successfully! Redirecting to login...');
+                setPasswords({ password: '', confirmPassword: '' });
 
-            // Redirect to signin after 3 seconds
-            setTimeout(() => {
-                router.push('/signin');
-            }, 3000);
+                // Redirect to signin after 3 seconds
+                setTimeout(() => {
+                    router.push('/signin');
+                }, 3000);
+            }
 
-        } catch (error: any) {
-            console.error('Password reset error:', error);
-            // Handle token validation errors from the same endpoint
-            if (error.response?.status === 400 || error.response?.status === 404) {
-                setError(error.response?.data?.error || 'Invalid or expired reset token. Please request a new password reset.');
-                setTokenValid(false);
+        } catch (error) {
+            // Show backend error message or default error
+            if (axios.isAxiosError(error) && error.response) {
+                setError(error.response?.data?.message || error.response?.data?.error);
+                if (error.response?.status === 400 || error.response?.status === 404) {
+                    setTokenValid(false);
+                }
             } else {
-                setError(error.response?.data?.error || 'Failed to reset password. Please try again.');
+                setError('An unexpected error occurred. Please try again later.');
             }
         } finally {
             setIsLoading(false);
         }
     };
 
-    // If token is missing
+    // If token is being validated
     if (tokenValid === null) {
         return (
             <div className='h-screen w-full flex items-center justify-center'>
@@ -172,7 +180,7 @@ const ResetPasswordPage = () => {
                     </div>
                     <h1 className='font-bold text-3xl'>Set New Password</h1>
                     <p className='text-sm text-zinc-600'>
-                        Please enter your new password below. Make sure it's strong and secure.
+                        Please enter your new password below. Make sure it&apos;s strong and secure.
                     </p>
                 </div>
 
@@ -193,11 +201,13 @@ const ResetPasswordPage = () => {
                                 onChange={handleChange}
                                 placeholder="Enter your new password"
                                 required
+                                disabled={isLoading}
                             />
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
                                 className="absolute right-3 top-2.5 text-zinc-400 hover:text-zinc-700 transition-colors"
+                                disabled={isLoading}
                             >
                                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                             </button>
@@ -218,11 +228,13 @@ const ResetPasswordPage = () => {
                                 onChange={handleChange}
                                 placeholder="Confirm your new password"
                                 required
+                                disabled={isLoading}
                             />
                             <button
                                 type="button"
                                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                                 className="absolute right-3 top-2.5 text-zinc-400 hover:text-zinc-700 transition-colors"
+                                disabled={isLoading}
                             >
                                 {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                             </button>
@@ -259,13 +271,13 @@ const ResetPasswordPage = () => {
                     {/* Submit button */}
                     <button
                         type="submit"
-                        disabled={isLoading || !passwords.password || !passwords.confirmPassword || Boolean(success)}
-                        className={`w-full px-4 py-2 rounded-md cursor-pointer transition-colors ${!isLoading && passwords.password && passwords.confirmPassword && !success
+                        disabled={isLoading || !passwords.password || !passwords.confirmPassword}
+                        className={`w-full px-4 py-2 rounded-md cursor-pointer transition-colors ${!isLoading && passwords.password && passwords.confirmPassword
                             ? 'bg-blue-600 text-white hover:bg-blue-700'
                             : 'bg-zinc-300 text-zinc-500 cursor-not-allowed'
                             }`}
                     >
-                        {isLoading ? 'Resetting Password...' : success ? 'Password Reset!' : 'Reset Password'}
+                        {isLoading ? 'Resetting Password...' : 'Reset Password'}
                     </button>
                 </form>
 
@@ -276,6 +288,7 @@ const ResetPasswordPage = () => {
                         <button
                             onClick={() => router.push('/signin')}
                             className="text-blue-500 hover:text-blue-700 underline"
+                            disabled={isLoading}
                         >
                             Back to Login
                         </button>

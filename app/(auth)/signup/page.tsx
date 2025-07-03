@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { signIn } from 'next-auth/react';
 import { CircleAlert, Check, X, Eye, EyeOff } from 'lucide-react';
 import axios from 'axios';
+import GoogleLogin from '@/components/auth/GoogleAuthButton';
 
 const SignupPage = () => {
     // Using Next.js router for navigation
@@ -23,7 +23,7 @@ const SignupPage = () => {
     const [loading, setLoading] = useState(false);
 
     // Password strength validation function
-    const validatePasswordStrength = (password: any) => {
+    const validatePasswordStrength = (password: string) => {
         const requirements = {
             minLength: password.length >= 8,
             hasUppercase: /[A-Z]/.test(password),
@@ -45,7 +45,7 @@ const SignupPage = () => {
     const passwordStrength = validatePasswordStrength(form.password);
 
     // Function to get strength label and color
-    const getStrengthInfo = (score: number) => {
+    const getStrengthInfo = (score: number): { label: string; color: string } => {
         if (score === 0) return { label: '', color: '' };
         if (score <= 2) return { label: 'Weak', color: 'text-red-500' };
         if (score <= 3) return { label: 'Fair', color: 'text-yellow-500' };
@@ -56,15 +56,14 @@ const SignupPage = () => {
     const strengthInfo = getStrengthInfo(passwordStrength.score);
 
     // Function to handle input changes and update form state
-    const handleChange = (e: any) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setForm({ ...form, [e.target.name]: e.target.value });
         // Clear error when user starts typing
         if (error) setError('');
     };
 
     // Function to handle form submission for signup
-    const handleSignUp = async (e: any) => {
-        e.preventDefault();
+    const handleSignUp = async () => {
         setError('');
         setLoading(true);
 
@@ -92,21 +91,21 @@ const SignupPage = () => {
                 name: form.name,
                 email: form.email,
                 password: form.password,
-            },{
-                withCredentials: true, 
+            }, {
+                withCredentials: true,
             });
 
-            if (res.status !== 201) {
-                setError(res.data.message || 'Signup failed');
-                return;
+            if (res.status === 200) {
+                // Navigate to OTP verification page with email parameter
+                router.push(`/verify-email?email=${encodeURIComponent(form.email)}`);
             }
 
-            // Navigate to OTP verification page with email parameter
-            router.push(`/verify-email?email=${encodeURIComponent(form.email)}`);
-
-        } catch (err: any) {
-            console.error(err);
-            setError(err.response?.data?.message || 'Something went wrong');
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                setError(error.response?.data?.message)
+            } else {
+                setError('Something went wrong. Please try again.');
+            }
         } finally {
             setLoading(false);
         }
@@ -127,14 +126,16 @@ const SignupPage = () => {
                     </p>
                 </div>
 
-                {/* Button to sign in with Google */}
-                <button className='w-full flex items-center gap-2 justify-center p-2 border border-zinc-300 rounded-md text-base mb-4 cursor-pointer hover:bg-zinc-100 hover:border-zinc-500'
-                    onClick={() => signIn('google', {
-                        callbackUrl: '/dashboard/links'
-                    })}>
-                    <img src="https://cdn-icons-png.flaticon.com/128/281/281764.png" alt="Google Icon" className="w-4 h-4" />
-                    Continue with Google
-                </button>
+                {/* Google sign-up button */}
+                <div className="w-full max-w-md">
+                    <GoogleLogin
+                        onSuccess={() => router.push('/dashboard')}
+                        className='w-full'
+                        theme="filled_blue"
+                        size="large"
+                        onError={(error) => setError(error)}
+                    />
+                </div>
 
                 <div className='flex gap-2 items-center'>
                     <div className='h-[0.5px] w-full bg-zinc-600' />OR

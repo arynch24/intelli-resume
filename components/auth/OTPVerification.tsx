@@ -128,9 +128,12 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({ email }) => {
                 setError(response.data.message || 'Verification failed');
             }
 
-        } catch (err: any) {
-            console.error('OTP verification error:', err);
-            setError(err.response?.data?.message || 'Invalid verification code. Please try again.');
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                setError(error.response?.data?.message);
+            } else {
+                setError('An unexpected error occurred. Please try again.');
+            }
         } finally {
             setIsLoading(false);
         }
@@ -157,9 +160,12 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({ email }) => {
             // Focus on first input
             inputRefs.current[0]?.focus();
 
-        } catch (err: any) {
-            console.error('Resend OTP error:', err);
-            setError(err.response?.data?.message || 'Failed to resend code. Please try again.');
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                setError(error.response?.data?.message);
+            } else {
+                setError('Failed to resend code. Please try again.');
+            }
         }
     };
 
@@ -175,7 +181,7 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({ email }) => {
                     <button
                         type="button"
                         onClick={() => router.push('/signup')}
-                        className="text-sm text-zinc-600 hover:text-zinc-800 bg-zinc-100 hover:bg-zinc-200 rounded px-3 py-2 cursor-pointer "
+                        className="flex items-center gap-2 text-sm cursor-pointer text-blue-500 hover:text-blue-700 bg-zinc-100 hover:bg-zinc-200 p-2 rounded w-fit"
                         disabled={isLoading}
                     >
                         ← Back to signup
@@ -186,7 +192,7 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({ email }) => {
                 <div className='flex flex-col gap-2 '>
                     <h1 className='font-bold text-3xl'>Verify your email</h1>
                     <p className='text-sm text-zinc-600'>
-                        We've sent a 6-digit verification code to
+                        We&apos;ve sent a 6-digit verification code to
                     </p>
                     <p className='text-sm font-medium text-zinc-800'>
                         {email}
@@ -243,8 +249,8 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({ email }) => {
                         type="submit"
                         disabled={!isOtpComplete || isLoading || success}
                         className={`w-full px-4 py-3 rounded-md font-medium transition-colors ${isOtpComplete && !isLoading && !success
-                                ? 'bg-blue-600 text-white hover:bg-blue-700'
-                                : 'bg-zinc-300 text-zinc-500 cursor-not-allowed'
+                            ? 'bg-blue-600 text-white hover:bg-blue-700'
+                            : 'bg-zinc-300 text-zinc-500 cursor-not-allowed'
                             }`}
                     >
                         {isLoading ? 'Verifying...' : success ? 'Verified!' : 'Verify Email'}
@@ -253,15 +259,15 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({ email }) => {
                     {/* Resend code section */}
                     <div className="flex gap-2 items-center text-center mt-6">
                         <p className="text-sm text-zinc-600 ">
-                            Didn't receive the code?
+                            Didn&apos;t receive the code?
                         </p>
                         <button
                             type="button"
                             onClick={handleResendCode}
                             disabled={resendTimer > 0 || isLoading || success}
                             className={`text-sm font-medium ${resendTimer > 0 || isLoading || success
-                                    ? 'text-zinc-400 cursor-not-allowed'
-                                    : 'text-blue-600 hover:text-blue-700 cursor-pointer'
+                                ? 'text-zinc-400 cursor-not-allowed'
+                                : 'text-blue-600 hover:text-blue-700 cursor-pointer'
                                 }`}
                         >
                             {resendTimer > 0

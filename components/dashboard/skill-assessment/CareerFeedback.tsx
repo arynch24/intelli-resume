@@ -24,7 +24,7 @@ const CareerFeedback: React.FC<{
     // API call to share report
   };
 
-  const maxScore = Math.max(...skillScores.map(s => Math.max(s.score, s.industryAverage)));
+  // const maxScore = Math.max(...skillScores.map(s => Math.max(s.score, s.industryAverage)));
 
   return (
     <div className="w-full mx-auto">
@@ -143,7 +143,7 @@ const CareerFeedback: React.FC<{
             ].map(tab => (
               <button
                 key={tab.key}
-                onClick={() => setActiveTab(tab.key as any)}
+                onClick={() => setActiveTab(tab.key as 'technical' | 'soft' | 'industry')}
                 className={`px-4 py-2 rounded-lg font-medium ${activeTab === tab.key
                   ? `bg-${tab.color}-100 text-${tab.color}-800`
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'

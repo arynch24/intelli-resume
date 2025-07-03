@@ -11,7 +11,6 @@ interface ProgressBarProps {
 export const ProgressBar: React.FC<ProgressBarProps> = ({
     label,
     percentage,
-    color = '#10B981'
 }) => {
     const getColorClass = () => {
         if (percentage >= 80) return 'bg-green-500';

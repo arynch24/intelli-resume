@@ -21,14 +21,6 @@ const ForgotPasswordPage = () => {
         setSuccess('');
         setIsLoading(true);
 
-        // Basic email validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!email || !emailRegex.test(email)) {
-            setError('Please enter a valid email address');
-            setIsLoading(false);
-            return;
-        }
-
         try {
             // Make API call to forgot password endpoint
             const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/forgot-password`, {
@@ -38,8 +30,12 @@ const ForgotPasswordPage = () => {
                 setSuccess('Password reset link sent to your email.');
                 setEmail(''); // Clear email input on success
             }
-        } catch (error:any) {
-            setError(error.response?.data?.message || 'Something went wrong. Please try again.');
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                setError(error.response?.data?.message);
+            } else {
+                setError('Something went wrong. Please try again.');
+            }
         } finally {
             setIsLoading(false);
         }
@@ -54,22 +50,22 @@ const ForgotPasswordPage = () => {
 
     return (
         <div className='h-screen w-full flex items-center'>
-            <div className='h-full w-full px-6 flex flex-col justify-center text-zinc-800 gap-4 max-w-md mx-auto'>
+            <div className='h-full w-full px-4 flex flex-col justify-center text-zinc-800 gap-4 max-w-md mx-auto'>
 
                 {/* Back button */}
                 <button
                     onClick={() => router.push('/signin')}
-                    className='flex items-center gap-2 text-sm cursor-pointer text-blue-500 hover:text-blue-700 hover:bg-zinc-100 p-2 rounded mb-4 w-fit'
+                    className='flex items-center gap-2 text-sm cursor-pointer text-blue-500 hover:text-blue-700 bg-zinc-100 hover:bg-zinc-200 p-2 rounded w-fit'
                 >
                     <ArrowLeft size={16} />
                     Back to login
                 </button>
 
                 {/* Header */}
-                <div className='flex flex-col gap-2 pb-3'>
+                <div className='flex flex-col gap-2 pb-1'>
                     <h1 className='font-bold text-3xl'>Reset your password</h1>
                     <p className='text-sm text-zinc-600'>
-                        Enter your email address and we'll send you a link to reset your password.
+                        Enter your email address and we&apos;ll send you a link to reset your password.
                     </p>
                 </div>
 
@@ -98,8 +94,8 @@ const ForgotPasswordPage = () => {
                     {/* Error message */}
                     {error && (
                         <div className='flex items-center gap-2 text-red-500 text-sm mb-4'>
-                            <CircleAlert size={16} />
-                            {error}
+                            <CircleAlert size={16} className='flex items-center' />
+                            <p>{error}</p>
                         </div>
                     )}
 
@@ -115,7 +111,7 @@ const ForgotPasswordPage = () => {
                     <button
                         type="submit"
                         disabled={isLoading || !email}
-                        className={`w-full px-4 py-2 rounded-md cursor-pointer transition-colors ${!isLoading && email
+                        className={`w-full px-4 py-3 rounded-md cursor-pointer transition-colors ${!isLoading && email
                             ? 'bg-blue-600 text-white hover:bg-blue-700'
                             : 'bg-zinc-300 text-zinc-500 cursor-not-allowed'
                             }`}
@@ -125,8 +121,8 @@ const ForgotPasswordPage = () => {
                 </form>
 
                 {/* Additional help text */}
-                <div className="text-center text-sm text-zinc-600 mt-4">
-                    <p>Didn't receive the email? Check your spam folder or</p>
+                <div className="flex text-center text-sm text-zinc-600 mt-1 gap-2">
+                    <p>Didn&apos;t receive the email? Check your spam folder or</p>
                     <button
                         onClick={handleResend}
                         className="text-blue-500 hover:text-blue-700 underline"
@@ -137,7 +133,7 @@ const ForgotPasswordPage = () => {
                 </div>
 
                 {/* Return to signin link */}
-                <div className="text-center text-sm text-zinc-600 mt-2">
+                <div className="text-center text-sm text-zinc-600">
                     <p>
                         Remember your password?{' '}
                         <button

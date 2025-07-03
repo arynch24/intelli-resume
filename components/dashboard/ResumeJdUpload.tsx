@@ -83,7 +83,7 @@ export function ResumeJDUpload() {
     }
   };
 
-  const { openDialog, setOpenDialog } = useDashboard();
+  const { setOpenDialog } = useDashboard();
 
   const handleCloseDialogBox = (): void => {
     setResumeFile(null);

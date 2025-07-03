@@ -24,7 +24,7 @@ const AISuggestionBox: React.FC<AISuggestionBoxProps> = ({
         <span className="text-sm font-medium text-blue-800">AI Suggestion</span>
       </div>
       <p className="text-sm text-gray-700 leading-relaxed">
-        Here's an optimized description that includes more metrics and achievements:
+        Here&apos;s an optimized description that includes more metrics and achievements:
       </p>
       <div className="p-3 bg-white border border-blue-200 rounded text-sm text-gray-800 leading-relaxed">
         {suggestion}

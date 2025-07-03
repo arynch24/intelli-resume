@@ -41,7 +41,7 @@ export default function ResumeStarter() {
                 Import existing resume
               </h3>
               <p className="text-gray-600 text-sm leading-relaxed">
-                Upload your current resume and we'll help you optimise them using AI.
+                Upload your current resume and we&apos;ll help you optimise them using AI.
               </p>
             </div>
           </div>

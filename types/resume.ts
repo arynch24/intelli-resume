@@ -161,6 +161,11 @@ export interface SkillScore {
     industryAverage: number;
 }
 
+export interface MockAnswer {
+    questionId: string;
+    answer: any;
+};
+
 export interface CareerSuggestion {
     role: string;
     match: number;

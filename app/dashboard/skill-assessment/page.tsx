@@ -6,7 +6,7 @@ import ProgressSteppe from '@/components/dashboard/skill-assessment/ProgressStep
 import SkillExtraction from '@/components/dashboard/skill-assessment/SkillExtraction';
 import Assessment from '@/components/dashboard/skill-assessment/Assessment';
 import CareerFeedback from '@/components/dashboard/skill-assessment/CareerFeedback';
-import { Skill, SkillScore, CareerSuggestion, LearningRecommendation, StrengthsAndImprovements, AssessmentQuestion } from '@/types/resume';
+import { Skill, SkillScore, CareerSuggestion, LearningRecommendation, StrengthsAndImprovements, AssessmentQuestion, MockAnswer } from '@/types/resume';
 
 // Mock Data (Replace with actual API calls)
 const mockSkills: Skill[] = [
@@ -41,13 +41,14 @@ console.log(null === undefined);`,
   timeLimit: 900 // 15 minutes in seconds
 };
 
+
 const SkillAssessmentDashboard: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [skills, setSkills] = useState<Skill[]>(mockSkills);
   const [assessmentStarted, setAssessmentStarted] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [timeRemaining, setTimeRemaining] = useState(900); // 15 minutes
-  const [answers, setAnswers] = useState<any[]>([]);
+  const [answers, setAnswers] = useState<MockAnswer[]>([]);
 
   // Mock data for results
   const mockSkillScores: SkillScore[] = [
@@ -110,7 +111,7 @@ const SkillAssessmentDashboard: React.FC = () => {
     // API call to start assessment and fetch questions
   };
 
-  const handleAnswer = (answer: any) => {
+  const handleAnswer = (answer: MockAnswer) => {
     setAnswers(prev => [...prev, { questionId: mockQuestion.id, answer }]);
     // TODO: API call to save answer
   };
@@ -139,6 +140,11 @@ const SkillAssessmentDashboard: React.FC = () => {
         <div className="mb-8">
           <h1 className="text-3xl font-semibold text-gray-900 mb-1">Skill Assessment Dashboard</h1>
           <p className="text-gray-600">Evaluate your skills with AI-generated questions and get personalized career feedback</p>
+          <p className="hidden">{answers.map((ans) => {
+            return <>
+              <p>{ans.questionId}</p>
+            </>
+          })}</p>
         </div>
 
         <ProgressSteppe currentStep={currentStep} totalSteps={3} />

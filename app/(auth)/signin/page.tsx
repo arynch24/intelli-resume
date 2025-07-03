@@ -2,12 +2,12 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { signIn } from 'next-auth/react';
 import axios from 'axios';
 import { CircleAlert, Eye, EyeOff } from 'lucide-react';
+import GoogleLogin from '@/components/auth/GoogleAuthButton';
 
 const SigninPage = () => {
-    const router = useRouter(); // Next.js router hook to navigate programmatically
+    const router = useRouter();
 
     // State to hold email and password input values
     const [form, setForm] = useState({ email: '', password: '' });
@@ -42,19 +42,21 @@ const SigninPage = () => {
             const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/login`, {
                 email: form.email,
                 password: form.password,
-            },{
-                withCredentials: true, 
+            }, {
+                withCredentials: true,
             });
 
             // If sign-in is successful, redirect
             if (res.status === 200) {
                 router.push('/dashboard');
             }
-        } catch (err: any) {
-            console.error(err);
-            setError(err.response?.data?.message || 'Something went wrong');
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                setError(error.response?.data?.message)
+            } else {
+                setError('Something went wrong. Please try again.');
+            }
         } finally {
-
             setLoading(false);
         }
     };
@@ -69,7 +71,7 @@ const SigninPage = () => {
                         Login to your account
                     </h1>
                     <p className='text-sm flex gap-1'>
-                        Don't have an account?
+                        Don&apos;t have an account?
                         {/* Link to signup page */}
                         <a
                             className='text-blue-500 cursor-pointer hover:text-blue-700 underline'
@@ -81,19 +83,15 @@ const SigninPage = () => {
                 </div>
 
                 {/* Google sign-in button */}
-                <button
-                    className='w-full flex items-center gap-2 justify-center p-2 border border-zinc-300 rounded-md text-base mb-4 cursor-pointer hover:bg-zinc-100 hover:border-zinc-500'
-                    onClick={() => signIn('google', {
-                        callbackUrl: '/dashboard/links' // redirect after Google sign-in
-                    })}
-                >
-                    <img
-                        src="https://cdn-icons-png.flaticon.com/128/281/281764.png"
-                        alt="Google Icon"
-                        className="w-4 h-4"
+                <div className="w-full max-w-md">
+                    <GoogleLogin
+                        onSuccess={() => router.push('/dashboard')}
+                        className='w-full'
+                        theme="filled_blue"
+                        size="large"
+                        onError={(error) => setError(error)}
                     />
-                    Continue with Google
-                </button>
+                </div>
 
                 {/* Divider with "OR" text */}
                 <div className='flex gap-2 items-center'>
@@ -113,7 +111,7 @@ const SigninPage = () => {
                             name='email'
                             type="email"
                             value={form.email}
-                            onChange={handleChange} // update email state on change
+                            onChange={handleChange}
                             placeholder="Enter your email"
                         />
 
