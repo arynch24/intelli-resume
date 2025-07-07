@@ -7,7 +7,7 @@ import { SkillTag } from '@/components/dashboard/jd-matcher/SkillTag';
 import { SectionCard } from '@/components/dashboard/jd-matcher/SectionCard';
 import { ResumeJDUpload } from '@/components/dashboard/ResumeJdUpload';
 import { ResumeAnalysis } from '@/types/resume';
-import { SquarePen, Info, Copy } from 'lucide-react';
+import { Copy } from 'lucide-react';
 import { useDashboard } from '@/context/DashboardContext';
 
 // Mock data - in a real app, this would come from an API
