@@ -18,7 +18,7 @@ const AnalysisProgressOverlay = ({ isScanning }: { isScanning: boolean }) => {
 
   return (
     isScanning && (
-      <div className="fixed inset-1 flex items-center justify-center z-50">
+      <div className="absolute inset-0 flex items-center justify-center z-50">
         <div className="bg-white rounded-xl shadow-2xl border border-gray-200 p-8 max-w-md w-full mx-4">
           <div className="text-center">
             <div className="mb-6">

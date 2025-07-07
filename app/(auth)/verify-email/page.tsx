@@ -4,7 +4,7 @@ import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import OTPVerification from '@/components/auth/OTPVerification'; // Adjust path as needed
 
-const VerifyEmailInner = () => {
+const VerifyEmail = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const [email, setEmail] = useState<string>('');
@@ -34,7 +34,7 @@ const VerifyEmailInner = () => {
 const VerifyEmailPage = () => {
     return (
         <Suspense fallback={<div className="h-screen w-full flex items-center justify-center text-zinc-600">Loading...</div>}>
-            <VerifyEmailInner />
+            <VerifyEmail />
         </Suspense>
     );
 };
