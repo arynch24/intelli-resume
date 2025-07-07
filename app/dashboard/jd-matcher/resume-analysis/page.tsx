@@ -108,10 +108,6 @@ export default function JdMatcher() {
     setOpenDialog(true);
   };
 
-  const handleRegenerate = () => {
-    console.log('Regenerating summary...');
-  };
-
   const handleCopyToClipboard = () => {
     navigator.clipboard.writeText(mockData.summary)
       .then(() => {
@@ -148,7 +144,6 @@ export default function JdMatcher() {
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
             <div className="flex items-center justify-between mb-1">
               <h2 className="text-xl font-semibold text-gray-900">ATS Compatibility Score</h2>
-              <Info size={16} className="text-gray-400" />
             </div>
             <p className="text-gray-600 text-sm mb-6">
               How well your resume passes automated screening
@@ -184,7 +179,6 @@ export default function JdMatcher() {
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
             <div className="flex items-center justify-between mb-1">
               <h2 className="text-xl font-semibold text-gray-900">Job Description Match</h2>
-              <SquarePen size={16} className="text-gray-400 cursor-pointer" />
             </div>
             <p className="text-gray-600 text-sm mb-6">
               For: {mockData.jobTitle}
@@ -224,12 +218,6 @@ export default function JdMatcher() {
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-semibold text-gray-900">AI-Generated Resume Summary</h2>
-            <button
-              onClick={handleRegenerate}
-              className="text-blue-500 hover:text-blue-800 font-medium text-sm"
-            >
-              Regenerate
-            </button>
           </div>
           <p className="text-gray-700 leading-relaxed">{mockData.summary}</p>
           <div className="flex justify-end mt-4 cursor-pointer">
